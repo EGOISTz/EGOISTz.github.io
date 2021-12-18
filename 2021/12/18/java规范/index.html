@@ -1,0 +1,595 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  
+    <meta name="description" content="Ego的个人博客">
+  
+  <meta name="author" content="Ego">
+  <meta name="keywords" content="Java">
+  
+  <title>Java规范 - Ego&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Ego的Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Java规范">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-18 15:36" pubdate>
+        2021年12月18日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      10k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      113
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Java规范</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Java规范"><a href="#Java规范" class="headerlink" title="Java规范"></a>Java规范</h1><h2 id="一、命名规范"><a href="#一、命名规范" class="headerlink" title="一、命名规范"></a>一、命名规范</h2><ol>
+<li>【强制】 代码中的命名均不能以下划线或美元符号开始，也不能以下划线或美元符号结束。<br>反例： _name / _<em>name / $Object / name</em> / name$ / Object$</li>
+<li>【强制】 代码中的命名严禁使用拼音与英文混合的方式，更不允许直接使用中文的方式。<br>说明： 正确的英文拼写和语法可以让阅读者易于理解，避免歧义。注意，即使纯拼音命名方式<br>也要避免采用。<br>正例： alibaba / taobao / youku / hangzhou 等国际通用的名称， 可视同英文。<br>反例： DaZhePromotion [打折] / getPingfenByName() [评分] / int 某变量 = 3</li>
+<li>【强制】类名使用 UpperCamelCase 风格，必须遵从驼峰形式，但以下情形例外： DO / BO /<br>DTO / VO / AO<br>正例： MarcoPolo / UserDO / XmlService / TcpUdpDeal / TaPromotion<br>反例： macroPolo / UserDo / XMLService / TCPUDPDeal / TAPromotion</li>
+<li>【强制】方法名、参数名、成员变量、局部变量都统一使用 lowerCamelCase 风格，必须遵从<br>驼峰形式。<br>正例： localValue / getHttpMessage() / inputUserId</li>
+<li>【 强制】常量命名全部大写，单词间用下划线隔开，力求语义表达完整清楚，不要嫌名字长。<br>正例： MAX_STOCK_COUNT<br>反例： MAX_COUNT</li>
+<li>【强制】抽象类命名使用 Abstract 或 Base 开头； 异常类命名使用 Exception 结尾； 测试类<br>命名以它要测试的类的名称开始，以 Test 结尾。</li>
+<li>【强制】中括号是数组类型的一部分，数组定义如下： String[] args;<br>反例： 使用 String args[]的方式来定义。</li>
+<li>【强制】 POJO 类中布尔类型的变量，都不要加 is，否则部分框架解析会引起序列化错误。<br>反例： 定义为基本数据类型 Boolean isDeleted； 的属性，它的方法也是 isDeleted()， RPC<br>框架在反向解析的时候， “以为”对应的属性名称是 deleted，导致属性获取不到，进而抛出异<br>常。</li>
+<li>【强制】包名统一使用小写，点分隔符之间有且仅有一个自然语义的英语单词。包名统一使用<br>单数形式，但是类名如果有复数含义，类名可以使用复数形式。<br>正例： 应用工具类包名为 com.alibaba.open.util、类名为 MessageUtils（ 此规则参考<br>spring 的框架结构）</li>
+<li>【强制】杜绝完全不规范的缩写， 避免望文不知义。<br>反例： AbstractClass“ 缩写” 命名成 AbsClass； condition“ 缩写” 命名成 condi，此类<br>随意缩写严重降低了代码的可阅读性。</li>
+<li>【推荐】如果使用到了设计模式，建议在类名中体现出具体模式。<br>说明： 将设计模式体现在名字中，有利于阅读者快速理解架构设计思想。<br>正例： public class OrderFactory;<br>public class LoginProxy;<br>public class ResourceObserver;</li>
+<li>【推荐】接口类中的方法和属性不要加任何修饰符号（ public 也不要加） ，保持代码的简洁<br>性，并加上有效的 Javadoc 注释。尽量不要在接口里定义变量，如果一定要定义变量，肯定是<br>与接口方法相关，并且是整个应用的基础常量。<br>正例： 接口方法签名： void f();<br>接口基础常量表示： String COMPANY = “alibaba”;<br>反例： 接口方法定义： public abstract void f();<br>说明： JDK8 中接口允许有默认实现，那么这个 default 方法，是对所有实现类都有价值的默<br>认实现。</li>
+<li>接口和实现类的命名有两套规则：<br>1） 【强制】对于 Service 和 DAO 类，基于 SOA 的理念，暴露出来的服务一定是接口，内部<br>的实现类用 Impl 的后缀与接口区别。<br>正例： CacheServiceImpl 实现 CacheService 接口。<br>2）【推荐】 如果是形容能力的接口名称，取对应的形容词做接口名 （ 通常是–able 的形式）。<br>正例： AbstractTranslator 实现 Translatable。</li>
+<li>【参考】枚举类名建议带上 Enum 后缀，枚举成员名称需要全大写，单词间用下划线隔开。<br>说明： 枚举其实就是特殊的常量类，且构造方法被默认强制是私有。<br>正例： 枚举名字： DealStatusEnum， 成员名称： SUCCESS / UNKOWN_REASON。</li>
+<li>【参考】各层命名规约：<br>A) Service/DAO 层方法命名规约<br>1） 获取单个对象的方法用 get 做前缀。<br>2） 获取多个对象的方法用 list 做前缀。<br>3） 获取统计值的方法用 count 做前缀。<br>4） 插入的方法用 save（ 推荐） 或 insert 做前缀。<br>5） 删除的方法用 remove（ 推荐） 或 delete 做前缀。<br>6） 修改的方法用 update 做前缀。<br>B) 领域模型命名规约<br>1） 数据对象： xxxDO， xxx 即为数据表名。<br>2） 数据传输对象： xxxDTO， xxx 为业务领域相关的名称。<br>3） 展示对象： xxxVO， xxx 一般为网页名称。<br>4） POJO 是 DO/DTO/BO/VO 的统称，禁止命名成 xxxPOJO。</li>
+</ol>
+<h2 id="二、常量定义"><a href="#二、常量定义" class="headerlink" title="二、常量定义"></a>二、常量定义</h2><ol>
+<li>【强制】不允许任何魔法值（ 即未经定义的常量） 直接出现在代码中。<br>反例： String key = “Id#taobao_” + tradeId;<br>cache.put(key, value);</li>
+<li>【强制】 long 或者 Long 初始赋值时，必须使用大写的 L，不能是小写的 l，小写容易跟数字<br>1 混淆，造成误解。<br>说明： Long a = 2l; 写的是数字的 21，还是 Long 型的 2?</li>
+<li>【推荐】不要使用一个常量类维护所有常量，应该按常量功能进行归类，分开维护。如：缓存<br>相关的常量放在类： CacheConsts 下； 系统配置相关的常量放在类： ConfigConsts 下。<br>说明： 大而全的常量类，非得使用查找功能才能定位到修改的常量，不利于理解和维护。</li>
+<li>【推荐】常量的复用层次有五层：跨应用共享常量、应用内共享常量、子工程内共享常量、包<br>内共享常量、类内共享常量。<br>1） 跨应用共享常量：放置在二方库中，通常是 client.jar 中的 constant 目录下。<br>2） 应用内共享常量：放置在一方库的 modules 中的 constant 目录下。<br>反例： 易懂变量也要统一定义成应用内共享常量，两位攻城师在两个类中分别定义了表示<br>“是”的变量：<br>类 A 中： public static final String YES = “yes”;<br>类 B 中： public static final String YES = “y”;<br>A.YES.equals(B.YES)，预期是 true，但实际返回为 false，导致线上问题。<br>3） 子工程内部共享常量：即在当前子工程的 constant 目录下。<br>4） 包内共享常量：即在当前包下单独的 constant 目录下。<br>5） 类内共享常量：直接在类内部 private static final 定义。</li>
+<li>【推荐】如果变量值仅在一个范围内变化，且带有名称之外的延伸属性， 定义为枚举类。下面<br>正例中的数字就是延伸信息，表示星期几。<br>正例： public Enum { MONDAY(1), TUESDAY(2), WEDNESDAY(3), THURSDAY(4), FRIDAY(5), SATURDAY(6),<br>SUNDAY(7);}</li>
+</ol>
+<h2 id="三、代码格式"><a href="#三、代码格式" class="headerlink" title="三、代码格式"></a>三、代码格式</h2><ol>
+<li>【强制】大括号的使用约定。如果是大括号内为空，则简洁地写成{}即可，不需要换行； 如果<br>是非空代码块则：<br>1） 左大括号前不换行。<br>2） 左大括号后换行。<br>3） 右大括号前换行。<br>4） 右大括号后还有 else 等代码则不换行； 表示终止的右大括号后必须换行。</li>
+<li>【强制】 左小括号和字符之间不出现空格； 同样，右小括号和字符之间也不出现空格。详见<br>第 5 条下方正例提示。<br>反例： if (空格 a == b 空格)</li>
+<li>【强制】 if/for/while/switch/do 等保留字与括号之间都必须加空格。</li>
+<li>【强制】任何二目、 三目运算符的左右两边都需要加一个空格。<br>说明： 运算符包括赋值运算符=、逻辑运算符&amp;&amp;、加减乘除符号等。</li>
+<li>【强制】 缩进采用 4 个空格，禁止使用 tab 字符。<br>说明： 如果使用 tab 缩进，必须设置 1 个 tab 为 4 个空格。 IDEA 设置 tab 为 4 个空格时，<br>请勿勾选 Use tab character；而在 eclipse 中，必须勾选 insert spaces for tabs。<br>正例： （ 涉及 1-5 点）<br>public static void main(String[] args) {<br>// 缩进 4 个空格<br>String say = “hello”;<br>// 运算符的左右必须有一个空格<br>int flag = 0;<br>// 关键词 if 与括号之间必须有一个空格，括号内的 f 与左括号， 0 与右括号不需要空格<br>if (flag == 0) {<br>System.out.println(say);<br>}<br>// 左大括号前加空格且不换行；左大括号后换行<br>if (flag == 1) {<br>System.out.println(“world”);<br>// 右大括号前换行，右大括号后有 else，不用换行<br>} else {<br>System.out.println(“ok”);<br>// 在右大括号后直接结束，则必须换行<br>}<br>}</li>
+<li>【强制】单行字符数限制不超过 120 个，超出需要换行，换行时遵循如下原则：<br>1） 第二行相对第一行缩进 4 个空格，从第三行开始，不再继续缩进，参考示例。<br>2） 运算符与下文一起换行。<br>3） 方法调用的点符号与下文一起换行。<br>4） 在多个参数超长， 在逗号后换行。<br>5） 在括号前不要换行，见反例。<br>正例：<br>StringBuffer sb = new StringBuffer();<br>//超过 120 个字符的情况下，换行缩进 4 个空格，并且方法前的点符号一起换行<br>sb.append(“zi”).append(“xin”)…<br>.append(“huang”)…<br>.append(“huang”)…<br>.append(“huang”);<br>反例：<br>StringBuffer sb = new StringBuffer();<br>//超过 120 个字符的情况下，不要在括号前换行<br>sb.append(“zi”).append(“xin”)…append<br>(“huang”);<br>//参数很多的方法调用可能超过 120 个字符， 不要在逗号前换行<br>method(args1, args2, args3, …<br>, argsX);</li>
+<li>【强制】方法参数在定义和传入时，多个参数逗号后边必须加空格。<br>正例： 下例中实参的”a”,后边必须要有一个空格。<br>method(“a”, “b”, “c”);</li>
+<li>【强制】 IDE 的 text file encoding 设置为 UTF-8; IDE 中文件的换行符使用 Unix 格式，<br>不要使用 windows 格式。</li>
+<li>【推荐】没有必要增加若干空格来使某一行的字符与上一行对应位置的字符对齐。<br>正例：<br>int a = 3;<br>long b = 4L;<br>float c = 5F;<br>StringBuffer sb = new StringBuffer();<br>说明： 增加 sb 这个变量，如果需要对齐，则给 a、 b、 c 都要增加几个空格，在变量比较多的<br>情况下，是一种累赘的事情。</li>
+<li>【推荐】方法体内的执行语句组、变量的定义语句组、不同的业务逻辑之间或者不同的语义<br>之间插入一个空行。相同业务逻辑和语义之间不需要插入空行。<br>说明： 没有必要插入多个空行进行隔开。</li>
+</ol>
+<h2 id="四、OOP-规约"><a href="#四、OOP-规约" class="headerlink" title="四、OOP 规约"></a>四、OOP 规约</h2><ol>
+<li>【强制】避免通过一个类的对象引用访问此类的静态变量或静态方法，无谓增加编译器解析成<br>本，直接用类名来访问即可。</li>
+<li>【强制】所有的覆写方法，必须加@Override 注解。<br>说明： getObject()与 get0bject()的问题。一个是字母的 O，一个是数字的 0，加@Override<br>可以准确判断是否覆盖成功。另外，如果在抽象类中对方法签名进行修改，其实现类会马上编<br>译报错。</li>
+<li>【强制】 相同参数类型，相同业务含义，才可以使用 Java 的可变参数，避免使用 Object。<br>说明： 可变参数必须放置在参数列表的最后。 （ 提倡同学们尽量不用可变参数编程）<br>正例： public User getUsers(String type, Integer… ids) {…}</li>
+<li>【强制】外部正在调用或者二方库依赖的接口，不允许修改方法签名，避免对接口调用方产生<br>影响。接口过时必须加@Deprecated 注解，并清晰地说明采用的新接口或者新服务是什么。</li>
+<li>【强制】不能使用过时的类或方法。<br>说明： java.net.URLDecoder 中的方法 decode(String encodeStr) 这个方法已经过时，应<br>该使用双参数 decode(String source, String encode)。接口提供方既然明确是过时接口，<br>那么有义务同时提供新的接口； 作为调用方来说，有义务去考证过时方法的新实现是什么。</li>
+<li>【强制】 Object 的 equals 方法容易抛空指针异常，应使用常量或确定有值的对象来调用<br>equals。<br>正例： “test”.equals(object);<br>反例： object.equals(“test”);<br>说明： 推荐使用 java.util.Objects#equals （ JDK7 引入的工具类）</li>
+<li>【强制】所有的相同类型的包装类对象之间值的比较，全部使用 equals 方法比较。<br>说明： 对于 Integer var = ? 在-128 至 127 范围内的赋值， Integer 对象是在<br>IntegerCache.cache 产生，会复用已有对象，这个区间内的 Integer 值可以直接使用==进行<br>判断，但是这个区间之外的所有数据，都会在堆上产生，并不会复用已有对象，这是一个大坑，<br>推荐使用 equals 方法进行判断。</li>
+<li>关于基本数据类型与包装数据类型的使用标准如下：<br>1） 【强制】 所有的 POJO 类属性必须使用包装数据类型。<br>2） 【强制】 RPC 方法的返回值和参数必须使用包装数据类型。<br>3） 【 推荐】 所有的局部变量使用基本数据类型。<br>说明： POJO 类属性没有初值是提醒使用者在需要使用时，必须自己显式地进行赋值，任何<br>NPE 问题，或者入库检查，都由使用者来保证。<br>正例： 数据库的查询结果可能是 null，因为自动拆箱，用基本数据类型接收有 NPE 风险。<br>反例： 比如显示成交总额涨跌情况，即正负 x%， x 为基本数据类型，调用的 RPC 服务，调用<br>不成功时， 返回的是默认值，页面显示： 0%，这是不合理的，应该显示成中划线-。所以包装<br>数据类型的 null 值，能够表示额外的信息，如：远程调用失败，异常退出。</li>
+<li>【强制】定义 DO/DTO/VO 等 POJO 类时，不要设定任何属性默认值。<br>反例： POJO 类的 gmtCreate 默认值为 new Date();但是这个属性在数据提取时并没有置入具<br>体值，在更新其它字段时又附带更新了此字段，导致创建时间被修改成当前时间。</li>
+<li>【强制】序列化类新增属性时，请不要修改 serialVersionUID 字段，避免反序列失败； 如<br>果完全不兼容升级，避免反序列化混乱，那么请修改 serialVersionUID 值。<br>说明： 注意 serialVersionUID 不一致会抛出序列化运行时异常。</li>
+<li>【强制】构造方法里面禁止加入任何业务逻辑，如果有初始化逻辑，请放在 init 方法中。</li>
+<li>【强制】 POJO 类必须写 toString 方法。使用 IDE 的中工具： source&gt; generate toString<br>时，如果继承了另一个 POJO 类，注意在前面加一下 super.toString。<br>说明： 在方法执行抛出异常时，可以直接调用 POJO 的 toString()方法打印其属性值，便于排<br>查问题。</li>
+<li>【推荐】使用索引访问用 String 的 split 方法得到的数组时，需做最后一个分隔符后有无<br>内容的检查，否则会有抛 IndexOutOfBoundsException 的风险。<br>说明：<br>String str = “a,b,c,,”;<br>String[] ary = str.split(“,”);<br>//预期大于 3，结果是 3<br>System.out.println(ary.length);</li>
+<li>【推荐】当一个类有多个构造方法，或者多个同名方法，这些方法应该按顺序放置在一起，<br>便于阅读。</li>
+<li>【推荐】 类内方法定义顺序依次是：公有方法或保护方法 &gt; 私有方法 &gt; getter/setter<br>方法。<br>说明： 公有方法是类的调用者和维护者最关心的方法，首屏展示最好； 保护方法虽然只是子类<br>关心，也可能是“模板设计模式”下的核心方法； 而私有方法外部一般不需要特别关心，是一个<br>黑盒实现； 因为方法信息价值较低，所有 Service 和 DAO 的 getter/setter 方法放在类体最<br>后。</li>
+<li>【推荐】 setter 方法中，参数名称与类成员变量名称一致， this.成员名 = 参数名。在<br>getter/setter 方法中， 不要增加业务逻辑，增加排查问题的难度。<br>反例：<br>public Integer getData() {<br>if (true) {<br>return this.data + 100;<br>} else {<br>return this.data - 100;<br>}<br>}</li>
+<li>【推荐】循环体内，字符串的连接方式，使用 StringBuilder 的 append 方法进行扩展。<br>说明： 反编译出的字节码文件显示每次循环都会 new 出一个 StringBuilder 对象，然后进行<br>append 操作，最后通过 toString 方法返回 String 对象，造成内存资源浪费。<br>反例：<br>String str = “start”;<br>for (int i = 0; i &lt; 100; i++) {<br>str = str + “hello”;<br>}</li>
+<li>【推荐】 final 可以声明类、成员变量、方法、以及本地变量，下列情况使用 final 关键字：<br>1） 不允许被继承的类，如： String 类。<br>2） 不允许修改引用的域对象，如： POJO 类的域变量。<br>3） 不允许被重写的方法，如： POJO 类的 setter 方法。<br>4） 不允许运行过程中重新赋值的局部变量。<br>5） 避免上下文重复使用一个变量，使用 final 描述可以强制重新定义一个变量，方便更好<br>地进行重构。</li>
+<li>【推荐】慎用 Object 的 clone 方法来拷贝对象。<br>说明： 对象的 clone 方法默认是浅拷贝，若想实现深拷贝需要重写 clone 方法实现属性对象<br>的拷贝。</li>
+<li>【推荐】类成员与方法访问控制从严：<br>1） 如果不允许外部直接通过 new 来创建对象，那么构造方法必须是 private。<br>2） 工具类不允许有 public 或 default 构造方法。<br>3） 类非 static 成员变量并且与子类共享，必须是 protected。<br>4） 类非 static 成员变量并且仅在本类使用，必须是 private。<br>5） 类 static 成员变量如果仅在本类使用，必须是 private。<br>6） 若是 static 成员变量，必须考虑是否为 final。<br>7） 类成员方法只供类内部调用，必须是 private。<br>8） 类成员方法只对继承类公开，那么限制为 protected。<br>说明： 任何类、方法、参数、变量，严控访问范围。过于宽泛的访问范围，不利于模块解耦。<br>思考：如果是一个 private 的方法，想删除就删除，可是一个 public 的 service 方法，或者<br>一个 public 的成员变量，删除一下，不得手心冒点汗吗？变量像自己的小孩，尽量在自己的<br>视线内，变量作用域太大，如果无限制的到处跑，那么你会担心的</li>
+</ol>
+<h2 id="五、集合处理"><a href="#五、集合处理" class="headerlink" title="五、集合处理"></a>五、集合处理</h2><ol>
+<li><p>【强制】 关于 hashCode 和 equals 的处理，遵循如下规则：<br> 1） 只要重写 equals，就必须重写 hashCode。<br> 2） 因为 Set 存储的是不重复的对象，依据 hashCode 和 equals 进行判断，所以 Set 存储的<br> 对象必须重写这两个方法。<br> 3） 如果自定义对象做为 Map 的键，那么必须重写 hashCode 和 equals。<br> 说明： String 重写了 hashCode 和 equals 方法，所以我们可以非常愉快地使用 String 对象<br> 作为 key 来使用。</p>
+</li>
+<li><p>【强制】 ArrayList的subList结果不可强转成ArrayList，否则会抛出 ClassCastException<br> 异常： java.util.RandomAccessSubList cannot be cast to java.util.ArrayList ;<br> 说明： subList 返回的是 ArrayList 的内部类 SubList，并不是 ArrayList ，而是<br> ArrayList 的一个视图，对于 SubList 子列表的所有操作最终会反映到原列表上。</p>
+</li>
+<li><p>【强制】 在 subList 场景中， 高度注意对原集合元素个数的修改，会导致子列表的遍历、增<br> 加、删除均产生 ConcurrentModificationException 异常。</p>
+</li>
+<li><p>【强制】使用集合转数组的方法，必须使用集合的 toArray(T[] array)，传入的是类型完全<br> 一样的数组，大小就是 list.size()。<br> 说明： 使用 toArray 带参方法，入参分配的数组空间不够大时， toArray 方法内部将重新分配<br> 内存空间，并返回新数组地址； 如果数组元素大于实际所需，下标为[ list.size() ]的数组<br> 元素将被置为 null，其它数组元素保持原值，因此最好将方法入参数组大小定义与集合元素<br> 个数一致。<br> 正例：</p>
+</li>
+</ol>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;String&gt;(<span class="hljs-number">2</span>);<br>list.add(<span class="hljs-string">&quot;guan&quot;</span>);<br>list.add(<span class="hljs-string">&quot;bao&quot;</span>);<br>String[] array = <span class="hljs-keyword">new</span> String[list.size()];<br>array = list.toArray(array);<br></code></pre></td></tr></table></figure>
+
+<p>  反例： 直接使用 toArray 无参方法存在问题，此方法返回值只能是 Object[]类，若强转其它<br>  类型数组将出现 ClassCastException 错误。</p>
+<ol start="5">
+<li><p>【强制】使用工具类 Arrays.asList()把数组转换成集合时，不能使用其修改集合相关的方<br> 法，它的 add/remove/clear 方法会抛出 UnsupportedOperationException 异常。<br> 说明： asList 的返回对象是一个 Arrays 内部类，并没有实现集合的修改方法。Arrays.asList<br> 体现的是适配器模式，只是转换接口，后台的数据仍是数组。<br> String[] str = new String[] { “a”, “b” };<br> List list = Arrays.asList(str);<br> 第一种情况： list.add(“c”); 运行时异常。<br> 第二种情况： str[0] = “gujin”; 那么 list.get(0)也会随之修改。</p>
+</li>
+<li><p>【强制】泛型通配符&lt;? extends T&gt;来接收返回的数据，此写法的泛型集合不能使用 add 方<br>法， 而&lt;? super T&gt;不能使用 get 方法，做为接口调用赋值时易出错。<br>说明： 扩展说一下 PECS(Producer Extends Consumer Super)原则：</p>
+</li>
+</ol>
+<p>1） 频繁往外读取内容的，适合用上界 Extends。</p>
+<p>2） 经常往里插入的，适合用下界 Super。<br>7. 【强制】不要在 foreach 循环里进行元素的 remove/add 操作。 remove 元素请使用 Iterator<br>    方式，如果并发操作，需要对 Iterator 对象加锁。<br>    正例：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java">Iterator&lt;String&gt; it = a.iterator();<br>    <span class="hljs-keyword">while</span> (it.hasNext()) &#123;<br>        String temp = it.next();<br>        <span class="hljs-keyword">if</span> (删除元素的条件) &#123;<br>        	it.remove();<br>        &#125;<br>    &#125;<br>反例：<br>    List&lt;String&gt; a = <span class="hljs-keyword">new</span> ArrayList&lt;String&gt;();<br>    a.add(<span class="hljs-string">&quot;1&quot;</span>);<br>    a.add(<span class="hljs-string">&quot;2&quot;</span>);<br>    <span class="hljs-keyword">for</span> (String temp : a) &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;1&quot;</span>.equals(temp)) &#123;<br>            a.remove(temp);<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>  说明： 以上代码的执行结果肯定会出乎大家的意料，那么试一下把“1”换成“2”，会是同样的<br>  结果吗？</p>
+<p>如果在foreach中1换成2删除就会报这个错误。</p>
+<p>Exception in thread “main” java.util.ConcurrentModificationException<br>    at java.util.ArrayList$Itr.checkForComodification(ArrayList.java:901)<br>    at java.util.ArrayList$Itr.next(ArrayList.java:851)<br>    at com.dsm.script.business.questionnaire.Demo.main(Demo.java:12)<br>总结：如果我们我们用foreach删除的元素刚好是最后一个，删除完成前cursor刚好等于size的大小。但是，删除完成后size的数量减1，但是cursor并没有变化。导致下一次循环不相等继续向下执行，导致检查数组不通过，抛出java.util.ConcurrentModificationException</p>
+<ol start="8">
+<li>【强制】 在 JDK7 版本及以上， Comparator 要满足如下三个条件，不然 Arrays.sort，<br> Collections.sort 会报 IllegalArgumentException 异常。<br> 说明：<br> 1） x， y 的比较结果和 y， x 的比较结果相反。<br> 2） x&gt;y， y&gt;z， 则 x&gt;z。<br> 3） x=y， 则 x， z 比较结果和 y， z 比较结果相同。<br> 反例： 下例中没有处理相等的情况，实际使用中可能会出现异常：</li>
+</ol>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">new</span> Comparator&lt;Student&gt;() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(Student o1, Student o2)</span> </span>&#123;<br>    	<span class="hljs-keyword">return</span> o1.getId() &gt; o2.getId() ? <span class="hljs-number">1</span> : -<span class="hljs-number">1</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<ol start="9">
+<li><p>【推荐】集合初始化时， 指定集合初始值大小。<br> 说明： HashMap 使用 HashMap(int initialCapacity) 初始化，<br> 正例：initialCapacity = (需要存储的元素个数 / 负载因子) + 1。注意负载因子 （ 即 loader<br> factor） 默认为 0.75， 如果暂时无法确定初始值大小， 请设置为 16。<br> 反例： HashMap 需要放置 1024 个元素， 由于没有设置容量初始大小，随着元素不断增加，容<br> 量 7 次被迫扩大， resize 需要重建 hash 表，严重影响性能。</p>
+</li>
+<li><p>【推荐】使用 entrySet 遍历 Map 类集合 KV，而不是 keySet 方式进行遍历。<br>说明： keySet 其实是遍历了 2 次，一次是转为 Iterator 对象，另一次是从 hashMap 中取出<br>key 所对应的 value。而 entrySet 只是遍历了一次就把 key 和 value 都放到了 entry 中，效<br>率更高。如果是 JDK8，使用 Map.foreach 方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java">Map&lt;String, Object&gt; infoMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>infoMap.put(<span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-string">&quot;Zebe&quot;</span>);<br>infoMap.put(<span class="hljs-string">&quot;site&quot;</span>, <span class="hljs-string">&quot;www.zebe.me&quot;</span>);<br>infoMap.put(<span class="hljs-string">&quot;email&quot;</span>, <span class="hljs-string">&quot;zebe@vip.qq.com&quot;</span>);<br><span class="hljs-comment">// 传统的Map迭代方式</span><br><span class="hljs-keyword">for</span> (Map.Entry&lt;String, Object&gt; entry : infoMap.entrySet()) &#123;<br>    System.out.println(entry.getKey() + <span class="hljs-string">&quot;：&quot;</span> + entry.getValue());<br>&#125;<br><span class="hljs-comment">//		// JDK8的迭代方式</span><br>infoMap.forEach((key, value) -&gt; &#123;<br>    System.out.println(key + <span class="hljs-string">&quot;：&quot;</span> + value);<br>&#125;);<br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>正例： values()返回的是 V 值集合，是一个 list 集合对象； keySet()返回的是 K 值集合，是<br>一个 Set 集合对象； entrySet()返回的是 K-V 值组合集合。<br>11. 【推荐】高度注意 Map 类集合 K/V 能不能存储 null 值的情况，如下表格：</p>
+<p>集合类    Key    Value    Super    说明<br>Hashtable    不允许为 null    不允许为 null    Dictionary    线程安全<br>ConcurrentHashMap    不允许为 null    不允许为 null    AbstractMap    分段锁技术<br>TreeMap    不允许为 null    允许为 null    AbstractMap    线程不安全<br>HashMap    允许为 null    允许为 null    AbstractMap    线程不安全<br>反例： 由于 HashMap 的干扰，很多人认为 ConcurrentHashMap 是可以置入 null 值，而事实上，<br>存储 null 值时会抛出 NPE 异常。<br>12. 【参考】合理利用好集合的有序性(sort)和稳定性(order)，避免集合的无序性(unsort)和<br>不稳定性(unorder)带来的负面影响。<br>说明： 有序性是指遍历的结果是按某种比较规则依次排列的。 稳定性指集合每次遍历的元素次<br>序是一定的。 如： ArrayList 是 order/unsort； HashMap 是 unorder/unsort； TreeSet 是<br>order/sort。<br>13. 【参考】利用 Set 元素唯一的特性，可以快速对一个集合进行去重操作，避免使用 List 的<br>contains 方法进行遍历、对比、 去重操作。</p>
+<h2 id="六、并发处理"><a href="#六、并发处理" class="headerlink" title="六、并发处理"></a>六、并发处理</h2><ol>
+<li>【强制】 获取单例对象需要保证线程安全，其中的方法也要保证线程安全。<br>说明： 资源驱动类、工具类、单例工厂类都需要注意。</li>
+<li>【强制】创建线程或线程池时请指定有意义的线程名称，方便出错时回溯。<br>正例：<br>public class TimerTaskThread extends Thread {<br>public TimerTaskThread() {<br>super.setName(“TimerTaskThread”); …<br>}</li>
+<li>【强制】线程资源必须通过线程池提供，不允许在应用中自行显式创建线程。<br>说明： 使用线程池的好处是减少在创建和销毁线程上所花的时间以及系统资源的开销，解决资<br>源不足的问题。如果不使用线程池，有可能造成系统创建大量同类线程而导致消耗完内存或者<br>“过度切换”的问题。</li>
+<li>【强制】线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样<br>的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。<br>说明： Executors 返回的线程池对象的弊端如下：<br>1） FixedThreadPool 和 SingleThreadPool:<br>允许的请求队列长度为 Integer.MAX_VALUE，可能会堆积大量的请求，从而导致 OOM。<br>2） CachedThreadPool 和 ScheduledThreadPool:<br>允许的创建线程数量为 Integer.MAX_VALUE， 可能会创建大量的线程，从而导致 OOM。</li>
+<li>【强制】 SimpleDateFormat 是线程不安全的类，一般不要定义为 static 变量，如果定义为<br>static，必须加锁，或者使用 DateUtils 工具类。<br>正例： 注意线程安全，使用 DateUtils。亦推荐如下处理：</li>
+</ol>
+<p>public class Demo {<br>    public static void main(String[] args) {</p>
+<pre><code>    Demo demo = new Demo();
+    System.out.println(demo.df.get().format(new Date()));
+&#125;
+</code></pre>
+<p>private static final ThreadLocal<DateFormat> df = new ThreadLocal<DateFormat>() {<br>    @Override<br>    protected DateFormat initialValue() {<br>    return new SimpleDateFormat(“yyyy-MM-dd”);<br>    }<br>};<br>说明： 如果是 JDK8 的应用，可以使用 Instant 代替 Date， LocalDateTime 代替 Calendar，<br>DateTimeFormatter代替Simpledateformatter，官方给出的解释：simple beautiful strong<br>immutable thread-safe。<br>6. 【强制】高并发时，同步调用应该去考量锁的性能损耗。能用无锁数据结构，就不要用锁； 能<br>锁区块，就不要锁整个方法体； 能用对象锁，就不要用类锁。<br>说明： 尽可能使加锁的代码块工作量尽可能的小，避免在锁代码块中调用 RPC 方法。<br>7. 【强制】对多个资源、数据库表、对象同时加锁时，需要保持一致的加锁顺序，否则可能会造<br>成死锁。<br>说明： 线程一需要对表 A、 B、 C 依次全部加锁后才可以进行更新操作，那么线程二的加锁顺序<br>也必须是 A、 B、 C，否则可能出现死锁。<br>8. 【强制】并发修改同一记录时，避免更新丢失， 需要加锁。 要么在应用层加锁， 要么在缓存加<br>锁，要么在数据库层使用乐观锁，使用 version 作为更新依据。<br>说明： 如果每次访问冲突概率小于 20%，推荐使用乐观锁，否则使用悲观锁。乐观锁的重试次<br>数不得小于 3 次。<br>9. 【强制】多线程并行处理定时任务时， Timer 运行多个 TimeTask 时，只要其中之一没有捕获<br>抛出的异常，其它任务便会自动终止运行，使用 ScheduledExecutorService 则没有这个问题。<br>10. 【推荐】使用 CountDownLatch 进行异步转同步操作，每个线程退出前必须调用 countDown<br>方法，线程执行代码注意 catch 异常，确保 countDown 方法可以执行，避免主线程无法执行<br>至 await 方法，直到超时才返回结果。<br>说明： 注意，子线程抛出异常堆栈，不能在主线程 try-catch 到。<br>11. 【推荐】避免 Random 实例被多线程使用，虽然共享该实例是线程安全的，但会因竞争同一<br>seed 导致的性能下降。<br>说明： Random 实例包括 java.util.Random 的实例或者 Math.random()的方式。<br>正例： 在 JDK7 之后，可以直接使用 API ThreadLocalRandom， 而在 JDK7 之前， 需要编码保<br>证每个线程持有一个实例。<br>12. 【推荐】 在并发场景下， 通过双重检查锁（ double-checked locking） 实现延迟初始化的优<br>化问题隐患(可参考 The “Double-Checked Locking is Broken” Declaration)， 推荐问<br>题解决方案中较为简单一种（ 适用于 JDK5 及以上版本） ，将目标属性声明为 volatile 型。<br>反例：<br>class Foo {<br>private Helper helper = null;<br>public Helper getHelper() {<br>if (helper == null) synchronized(this) {<br>if (helper == null)<br>helper = new Helper();<br>}<br>return helper;<br>}<br>// other functions and members…<br>}<br>13. 【参考】 volatile 解决多线程内存不可见问题。对于一写多读，是可以解决变量同步问题，<br>但是如果多写，同样无法解决线程安全问题。如果是 count++操作，使用如下类实现：<br>AtomicInteger count = new AtomicInteger(); count.addAndGet(1); 如果是 JDK8，推<br>荐使用 LongAdder 对象，比 AtomicLong 性能更好（ 减少乐观锁的重试次数） 。<br>14. 【参考】 HashMap 在容量不够进行 resize 时由于高并发可能出现死链，导致 CPU 飙升，在<br>开发过程中可以使用其它数据结构或加锁来规避此风险。<br>15. 【参考】 ThreadLocal 无法解决共享对象的更新问题， ThreadLocal 对象建议使用 static<br>修饰。这个变量是针对一个线程内所有操作共有的，所以设置为静态变量，所有此类实例共享<br>此静态变量 ，也就是说在类第一次被使用时装载，只分配一块存储空间，所有此类的对象(只<br>要是这个线程内定义的)都可以操控这个变量。</DateFormat></DateFormat></p>
+<h2 id="七、控制语句"><a href="#七、控制语句" class="headerlink" title="七、控制语句"></a>七、控制语句</h2><ol>
+<li>【强制】在一个 switch 块内，每个 case 要么通过 break/return 等来终止，要么注释说明程<br>序将继续执行到哪一个 case 为止； 在一个 switch 块内，都必须包含一个 default 语句并且<br>放在最后，即使它什么代码也没有。</li>
+<li>【强制】在 if/else/for/while/do 语句中必须使用大括号。 即使只有一行代码，避免使用<br>单行的形式： if (condition) statements;</li>
+<li>【推荐】 表达异常的分支时， 少用 if-else 方式， 这种方式可以改写成：<br>if (condition) {<br>…<br>return obj;<br>}<br>// 接着写 else 的业务逻辑代码;<br>说明： 如果非得使用 if()…else if()…else…方式表达逻辑，【强制】 避免后续代码维<br>护困难， 请勿超过 3 层。<br>正例： 逻辑上超过 3 层的 if-else 代码可以使用卫语句，或者状态模式来实现。 卫语句示例<br>如下：<br>public void today() {<br>if (isBusy()) {<br>System.out.println(“change time.”);<br>return;<br>}<br>if (isFree()) {<br>System.out.println(“go to travel.”);<br>return;<br>}<br>System.out.println(“stay at home to learn Alibaba Java Coding Guideline.”);<br>return;<br>}</li>
+<li>【推荐】除常用方法（如 getXxx/isXxx）等外，不要在条件判断中执行其它复杂的语句，将复<br>杂逻辑判断的结果赋值给一个有意义的布尔变量名，以提高可读性。<br>说明： 很多 if 语句内的逻辑相当复杂，阅读者需要分析条件表达式的最终结果，才能明确什么<br>样的条件执行什么样的语句，那么，如果阅读者分析逻辑表达式错误呢？<br>正例：<br>//伪代码如下<br>final boolean existed = (file.open(fileName, “w”) != null) &amp;&amp; (…) || (…);<br>if (existed) {<br>…<br>}<br>反例：<br>if ((file.open(fileName, “w”) != null) &amp;&amp; (…) || (…)) {<br>…<br>}</li>
+<li>【推荐】循环体中的语句要考量性能，以下操作尽量移至循环体外处理，如定义对象、变量、<br>获取数据库连接，进行不必要的 try-catch 操作（ 这个 try-catch 是否可以移至循环体外） 。</li>
+<li>【推荐】接口入参保护，这种场景常见的是用于做批量操作的接口。</li>
+<li>【参考】 下列情形，需要进行参数校验：<br>1） 调用频次低的方法。<br>2） 执行时间开销很大的方法。 此情形中， 参数校验时间几乎可以忽略不计，但如果因为参<br>数错误导致中间执行回退，或者错误，那得不偿失。<br>3） 需要极高稳定性和可用性的方法。<br>4） 对外提供的开放接口，不管是 RPC/API/HTTP 接口。<br>5） 敏感权限入口。</li>
+<li>【参考】 下列情形， 不需要进行参数校验：<br>1） 极有可能被循环调用的方法。但在方法说明里必须注明外部参数检查要求。<br>2） 底层调用频度比较高的方法。毕竟是像纯净水过滤的最后一道，参数错误不太可能到底<br>层才会暴露问题。一般 DAO 层与 Service 层都在同一个应用中，部署在同一台服务器中，所<br>以 DAO 的参数校验，可以省略。<br>3） 被声明成 private 只会被自己代码所调用的方法，如果能够确定调用方法的代码传入参<br>数已经做过检查或者肯定不会有问题，此时可以不校验参数。</li>
+</ol>
+<h2 id="八、注释约束"><a href="#八、注释约束" class="headerlink" title="八、注释约束"></a>八、注释约束</h2><ol>
+<li>【强制】类、类属性、类方法的注释必须使用 Javadoc 规范，使用/*<em>内容</em>/格式，不得使用<br>//xxx 方式。<br>说明： 在 IDE 编辑窗口中， Javadoc 方式会提示相关注释，生成 Javadoc 可以正确输出相应注<br>释； 在 IDE 中，工程调用方法时，不进入方法即可悬浮提示方法、参数、返回值的意义，提高<br>阅读效率。</li>
+<li>【强制】所有的抽象方法（ 包括接口中的方法） 必须要用 Javadoc 注释、除了返回值、参数、<br>异常说明外，还必须指出该方法做什么事情，实现什么功能。<br>说明： 对子类的实现要求，或者调用注意事项，请一并说明。</li>
+<li>【强制】所有的类都必须添加创建者和创建日期。</li>
+<li>【强制】方法内部单行注释，在被注释语句上方另起一行，使用//注释。方法内部多行注释<br>使用/* */注释，注意与代码对齐。</li>
+<li>【强制】所有的枚举类型字段必须要有注释，说明每个数据项的用途。</li>
+<li>【推荐】与其“半吊子”英文来注释，不如用中文注释把问题说清楚。专有名词与关键字保持<br>英文原文即可。<br>反例： “TCP 连接超时”解释成“传输控制协议连接超时”，理解反而费脑筋。</li>
+<li>【推荐】代码修改的同时，注释也要进行相应的修改，尤其是参数、返回值、异常、核心逻辑<br>等的修改。<br>说明： 代码与注释更新不同步，就像路网与导航软件更新不同步一样，如果导航软件严重滞后，<br>就失去了导航的意义。</li>
+<li>【参考】合理处理注释掉的代码。 在上方详细说明，而不是简单的注释掉。 如果无用，则删除。<br>说明： 代码被注释掉有两种可能性： 1） 后续会恢复此段代码逻辑。 2） 永久不用。前者如果没<br>有备注信息，难以知晓注释动机。后者建议直接删掉（ 代码仓库保存了历史代码） 。</li>
+<li>【参考】对于注释的要求：第一、能够准确反应设计思想和代码逻辑； 第二、能够描述业务含<br>义，使别的程序员能够迅速了解到代码背后的信息。完全没有注释的大段代码对于阅读者形同<br>天书，注释是给自己看的，即使隔很长时间，也能清晰理解当时的思路； 注释也是给继任者看<br>的，使其能够快速接替自己的工作。</li>
+<li>【参考】好的命名、代码结构是自解释的，注释力求精简准确、表达到位。避免出现注释的<br>一个极端：过多过滥的注释，代码的逻辑一旦修改，修改注释是相当大的负担。<br>反例：<br>// put elephant into fridge<br>put(elephant, fridge);<br>方法名 put，加上两个有意义的变量名 elephant 和 fridge，已经说明了这是在干什么，语<br>义清晰的代码不需要额外的注释。</li>
+<li>【参考】特殊注释标记，请注明标记人与标记时间。注意及时处理这些标记，通过标记扫描，<br>经常清理此类标记。线上故障有时候就是来源于这些标记处的代码。<br>1） 待办事宜（ TODO） :（标记人，标记时间， [预计处理时间]）<br>表示需要实现，但目前还未实现的功能。这实际上是一个 Javadoc 的标签，目前的 Javadoc<br>还没有实现，但已经被广泛使用。只能应用于类，接口和方法（ 因为它是一个 Javadoc 标签） 。<br>2） 错误，不能工作（ FIXME） :（ 标记人，标记时间， [预计处理时间]）<br>在注释中用 FIXME 标记某代码是错误的，而且不能工作，需要及时纠正的情况。</li>
+</ol>
+<h2 id="九、其他"><a href="#九、其他" class="headerlink" title="九、其他"></a>九、其他</h2><ol>
+<li>【强制】在使用正则表达式时，利用好其预编译功能，可以有效加快正则匹配速度。<br>说明： 不要在方法体内定义： Pattern pattern = Pattern.compile(规则);</li>
+<li>【强制】 velocity 调用 POJO 类的属性时，建议直接使用属性名取值即可， 模板引擎会自动按<br>规范调用 POJO 的 getXxx()，如果是 boolean 基本数据类型变量（ boolean 命名不需要加 is<br>前缀） ，会自动调用 isXxx()方法。<br>说明： 注意如果是 Boolean 包装类对象，优先调用 getXxx()的方法。</li>
+<li>【强制】后台输送给页面的变量必须加$!{var}——中间的感叹号。<br>说明： 如果 var=null 或者不存在，那么${var}会直接显示在页面上。</li>
+<li>【强制】注意 Math.random() 这个方法返回是 double 类型，注意取值的范围 0≤x&lt;1（ 能够<br>取到零值，注意除零异常） ， 如果想获取整数类型的随机数，不要将 x 放大 10 的若干倍然后<br>取整，直接使用 Random 对象的 nextInt 或者 nextLong 方法。</li>
+<li>【强制】获取当前毫秒数 System.currentTimeMillis(); 而不是 new Date().getTime();<br>说明： 如果想获取更加精确的纳秒级时间值， 使用 System.nanoTime()的方式。在 JDK8 中，<br>针对统计时间等场景，推荐使用 Instant 类。</li>
+<li>【推荐】 不要在视图模板中加入任何复杂的逻辑。<br>说明： 根据 MVC 理论，视图的职责是展示，不要抢模型和控制器的活。</li>
+<li>【推荐】 任何数据结构的构造或初始化，都应指定大小，避免数据结构无限增长吃光内存。</li>
+<li>【推荐】对于“明确停止使用的代码和配置”，如方法、变量、类、配置文件、动态配置属性<br>等要坚决从程序中清理出去，避免造成过多垃圾。<br>————————————————<br>版权声明：本文为CSDN博主「码农新锐」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_31984879/article/details/89235010">https://blog.csdn.net/qq_31984879/article/details/89235010</a></li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/java%E8%A7%84%E8%8C%83/">java规范</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/18/Java%E9%9D%A2%E8%AF%95%E9%A2%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java面试题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/18/git%E5%91%BD%E4%BB%A4/">
+                        <span class="hidden-mobile">Git命令</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
