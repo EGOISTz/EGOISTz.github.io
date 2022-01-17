@@ -22,22 +22,22 @@
   
   <title>前端VUE项目全流程配置 - Ego&#39;s Blog</title>
 
-  <link  rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/hexo-blog/lib/hint/hint.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
 
   
     
     
       
-      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.4.0/styles/github-gist.min.css" />
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
     
   
 
   
-    <link  rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
   
 
 
@@ -187,7 +187,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.9k 字
+      2.9k 字
     </span>
   
 
@@ -197,7 +197,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      27
+      41
        分钟
     </span>
   
@@ -335,6 +335,50 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//配置请求拦截器</span><br>requests.interceptors.request.use(<span class="hljs-function">(<span class="hljs-params">config</span>)=&gt;</span>&#123;<br>    <span class="hljs-comment">//config:配置对象，对象里有一个属性很重要--header请求头</span><br>    nprogress.start();<br>    <span class="hljs-keyword">return</span> config;<br>&#125;)<br><br><span class="hljs-comment">//响应拦截器</span><br>requests.interceptors.response.use(<span class="hljs-function">(<span class="hljs-params">res</span>)=&gt;</span>&#123;<br>    nprogress.done();<br>    <span class="hljs-keyword">return</span> res.data;<br>&#125;,<span class="hljs-function">(<span class="hljs-params">error</span>)=&gt;</span>&#123;<br>    <span class="hljs-built_in">console</span>.log(error)<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">&#x27;fail&#x27;</span>));<br>&#125;)<br></code></pre></td></tr></table></figure>
 
 <p>注意：进度条样式可以进行修改，在node_modules/nprogress/nprogress.css文件</p>
+<h2 id="13-使用Vuex模块式开发"><a href="#13-使用Vuex模块式开发" class="headerlink" title="13.使用Vuex模块式开发"></a>13.使用Vuex模块式开发</h2><p>当项目过大，组件过多数据多时，使用Vuex管理数据更加方便</p>
+<p>1.创建模块相应的js文件</p>
+<p>store/home/index.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//home模块仓库</span><br><span class="hljs-keyword">const</span> state = &#123;&#125;;<br><span class="hljs-keyword">const</span> mutations = &#123;&#125;;<br><span class="hljs-keyword">const</span> actions = &#123;&#125;;<br><span class="hljs-keyword">const</span> getters = &#123;&#125;;<br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;<br>    state,<br>    mutations,<br>    actions,<br>    getters<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>2.整合到总仓库中</p>
+<p>store/index.js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>;<br><span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vuex&#x27;</span>;<br><span class="hljs-comment">//需要使用插件一次</span><br>Vue.use(Vuex);<br><br><span class="hljs-comment">//引入模块仓库</span><br><span class="hljs-keyword">import</span> home <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./home&quot;</span><br><span class="hljs-keyword">import</span> search <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./search&quot;</span><br><br><span class="hljs-comment">//对外暴露Store类的一个实例</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">new</span> Vuex.Store(&#123;<br>    modules:&#123;<br>        home,<br>        search<br>    &#125;<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+
+
+<p>3.在main.js中引入并注册</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">//引入仓库</span><br><span class="hljs-keyword">import</span> store <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@/store&quot;</span>;<br><br><span class="hljs-keyword">new</span> Vue(&#123;<br>  render: <span class="hljs-function"><span class="hljs-params">h</span> =&gt;</span> h(App),<br>  router,    <span class="hljs-comment">//注册路由，当kv一致时可以省略v</span><br>  store<br>&#125;).$mount(<span class="hljs-string">&#x27;#app&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="14-三级联动数据动态展示"><a href="#14-三级联动数据动态展示" class="headerlink" title="14.三级联动数据动态展示"></a>14.三级联动数据动态展示</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs vue">&#x2F;&#x2F;引入辅助函数<br>import &#123;mapState&#125; from &#39;vuex&#39;<br><br>export default &#123;<br>  name: &quot;TypeNav&quot;,<br>  &#x2F;&#x2F;组件挂载完毕，向服务器发送请求<br>  mounted() &#123;<br>    &#x2F;&#x2F;通知Vuex发送请求，获取数据，存储于仓库中<br>    this.$store.dispatch(&#39;categoryList&#39;)<br>  &#125;,<br>  computed:&#123;<br>    ...mapState(&#123;<br>      &#x2F;&#x2F;右侧需要一个函数，当使用这个计算属性时，右侧函数会立即执行一次<br>      &#x2F;&#x2F;注入一个参数，为总仓库中的数据<br>      categoryList:(state)&#x3D;&gt;&#123;<br>        return state.home.categoryList;<br>      &#125;<br>    &#125;)<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>获取到categoryList中的数据后v-for展示即可</p>
+<h2 id="15-函数防抖与节流"><a href="#15-函数防抖与节流" class="headerlink" title="15.函数防抖与节流"></a>15.函数防抖与节流</h2><p>鼠标事件发速度过快导致的卡顿现象</p>
+<p>如何解决？</p>
+<p>节流：在规定的时间范围内不会重复出发回调，只有大于这个时间间隔才会出发回调，把频繁触发变为少量触发</p>
+<p>防抖：前面所有的触发都会被取消，最后一次执行在规定的时间之后才会触发，也就是说如果连续快速的触发，只会触发一次</p>
+<h3 id="15-1三级联动节流实现"><a href="#15-1三级联动节流实现" class="headerlink" title="15.1三级联动节流实现"></a>15.1三级联动节流实现</h3><p>1.引入lodash依赖</p>
+<p>2.组件中引入并使用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js">methods:&#123;<br>    changeIndex:throttle(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">index</span>)</span>&#123;<br>      <span class="hljs-built_in">this</span>.currentIndex = index;<br>    &#125;,<span class="hljs-number">50</span>),<span class="hljs-comment">//限制为50ms</span><br>    <span class="hljs-function"><span class="hljs-title">initIndex</span>(<span class="hljs-params"></span>)</span>&#123;<br>      <span class="hljs-built_in">this</span>.currentIndex = -<span class="hljs-number">1</span>;<br>    &#125;<br>  &#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="16-三级联动菜单的路由跳转与参数传递"><a href="#16-三级联动菜单的路由跳转与参数传递" class="headerlink" title="16.三级联动菜单的路由跳转与参数传递"></a>16.三级联动菜单的路由跳转与参数传递</h2><p>1.使用router-link标签—&gt;会导致卡顿现象，不使用</p>
+<p>2.a标签上绑定函数触发编程式导航，v-for循环后会产生大量函数，不使用</p>
+<p>3.使用编程式导航+事件委派（在最外层的父元素上添加跳转事件函数goSearch）</p>
+<p><strong>事件委派存在的问题：</strong></p>
+<ul>
+<li>点击a标签时才应该进行路由跳转（如何确定点击的一定是a标签）</li>
+<li>及时确定了点击的是a标签，如何确定点击的是几级标签</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs vue"><br>&#x2F;&#x2F;在对应的a标签上加上自定义属性来确定触发事件的是否是a标签以及是几级标签<br>&#x2F;&#x2F;一级标签<br>&lt;a @mouseenter&#x3D;&quot;changeIndex(index)&quot; :data-categoryName&#x3D;&quot;c1.categoryName&quot; :data-category1Id&#x3D;&quot;c1.categoryId&quot;&gt;&#123;&#123; c1.categoryName &#125;&#125;&lt;&#x2F;a&gt;<br>&#x2F;&#x2F;二级标签<br>&lt;a :data-categoryName&#x3D;&quot;c1.categoryName&quot; :data-category2Id&#x3D;&quot;c1.categoryId&quot;&gt;&#123;&#123; c2.categoryName &#125;&#125;&lt;&#x2F;a&gt;<br>&#x2F;&#x2F;三级标签<br>&lt;a :data-categoryName&#x3D;&quot;c1.categoryName&quot; :data-category3Id&#x3D;&quot;c1.categoryId&quot;&gt;&#123;&#123; c3.categoryName &#125;&#125;&lt;&#x2F;a&gt;<br></code></pre></td></tr></table></figure>
+
+<p>跳转函数goSearch逻辑</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs js">methods:&#123;<br>    changeIndex:throttle(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">index</span>)</span>&#123;<br>      <span class="hljs-built_in">this</span>.currentIndex = index;<br>    &#125;,<span class="hljs-number">50</span>),<span class="hljs-comment">//限制为50ms</span><br>    <span class="hljs-function"><span class="hljs-title">initIndex</span>(<span class="hljs-params"></span>)</span>&#123;<br>      <span class="hljs-built_in">this</span>.currentIndex = -<span class="hljs-number">1</span>;<br>    &#125;,<br>    <span class="hljs-function"><span class="hljs-title">goSearch</span>(<span class="hljs-params">event</span>)</span>&#123;<br>      <span class="hljs-comment">//区分a标签：在a标签上加上自定义属性data-categoryName</span><br>      <span class="hljs-comment">//获取当前触发这个事件的节点，带有自定义属性categoryname（注意浏览器自动转为小写）等的一定是a标签</span><br>      <span class="hljs-keyword">let</span> element = event.target;<br>      <span class="hljs-keyword">let</span> &#123;categoryname,category1id,category2id,category3id&#125; = element.dataset;<br>      <span class="hljs-keyword">if</span> (categoryname)&#123;<br>        <span class="hljs-keyword">let</span> location = &#123;<span class="hljs-attr">name</span>: <span class="hljs-string">&quot;search&quot;</span>&#125;;<br>        <span class="hljs-keyword">let</span> query = &#123;<span class="hljs-attr">categoryName</span>:categoryname&#125;<br>        <span class="hljs-keyword">if</span> (category1id)&#123;<br>          query.category1Id = category1id;<br>        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(category2id)&#123;<br>          query.category2Id = category2id;<br>        &#125;<span class="hljs-keyword">else</span> &#123;<br>          query.category3Id = category3id;<br>        &#125;<br>        location.query = query;<br>        <span class="hljs-built_in">this</span>.$router.push(location);<br>      &#125;<br>    &#125;<br>  &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
 
             </div>
             <hr>
@@ -394,7 +438,7 @@
   <div id="vcomments"></div>
   <script type="text/javascript">
     Fluid.utils.waitElementVisible('vcomments', function() {
-      Fluid.utils.createScript('https://cdn.staticfile.org/valine/1.4.14/Valine.min.js', function () {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', function () {
         new Valine({
           el: "#vcomments",
           app_id: "lqv2hCGARxDWAYQMQ0oak9p1-gzGzoHsz",
@@ -511,8 +555,8 @@
 
 <!-- SCRIPTS -->
 
-  <script  src="https://cdn.bootcdn.net/ajax/libs/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/nprogress/0.2.0/nprogress.min.css" />
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
 
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":100})
@@ -523,8 +567,8 @@
   </script>
 
 
-<script  src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js" ></script>
-<script  src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
 <script  src="/hexo-blog/js/debouncer.js" ></script>
 <script  src="/hexo-blog/js/events.js" ></script>
 <script  src="/hexo-blog/js/plugins.js" ></script>
@@ -542,19 +586,19 @@
 
 
 
-  <script  src="https://cdn.bootcdn.net/ajax/libs/tocbot/4.12.0/tocbot.min.js" ></script>
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
 
 
 
-  <script  src="https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
 
 
 
-  <script  src="https://cdn.bootcdn.net/ajax/libs/anchor-js/4.3.0/anchor.min.js" ></script>
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
 
 
 
-  <script defer src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
 
 
 
@@ -563,7 +607,7 @@
 
 
 
-  <script  src="https://cdn.bootcdn.net/ajax/libs/typed.js/2.0.11/typed.min.js" ></script>
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
   <script>
     (function (window, document) {
       var typing = Fluid.plugins.typing;
