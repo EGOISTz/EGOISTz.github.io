@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Dockerfile简介</title>
+    <link href="/hexo-blog/2022/03/09/Dockerfile%E7%AE%80%E4%BB%8B/"/>
+    <url>/hexo-blog/2022/03/09/Dockerfile%E7%AE%80%E4%BB%8B/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Dockerfile简介"><a href="#Dockerfile简介" class="headerlink" title="Dockerfile简介"></a>Dockerfile简介</h1><p>Dockerfile是用来构建Docker镜像的文本文件，是由一条条构建镜像所需的指令和参数构成的脚本</p><h2 id="一、构建大致流程："><a href="#一、构建大致流程：" class="headerlink" title="一、构建大致流程："></a>一、构建大致流程：</h2><ol><li>docker从基础镜像运行一个容器</li><li>执行一条指令并对容器做出修改</li><li>执行类似docker commit的操作提交一个新的镜像层</li><li>docker再基于刚提交的镜像运行一个新容器</li><li>执行dockerfile中的下一条指令直到所有指令执行完成</li></ol><h2 id="二、dockerfile常用保留字"><a href="#二、dockerfile常用保留字" class="headerlink" title="二、dockerfile常用保留字"></a>二、dockerfile常用保留字</h2><h3 id="1-FROM"><a href="#1-FROM" class="headerlink" title="1.FROM"></a>1.FROM</h3><p>指定基础镜像，当前镜像是基于哪个镜像的，指定一个已经存在的镜像作为模板</p><h3 id="2-MAINTAINER"><a href="#2-MAINTAINER" class="headerlink" title="2.MAINTAINER"></a>2.MAINTAINER</h3><p>镜像维护者的姓名和邮箱地址</p><h3 id="3-RUN"><a href="#3-RUN" class="headerlink" title="3.RUN"></a>3.RUN</h3><p>容器构建时需要运行的命令，有两种格式：shell和exec格式，<strong>在docker build时执行</strong></p><p>shell格式：</p><blockquote><p>RUN &lt;命令行命令&gt;</p><p>例：RUN yum -y install vim </p></blockquote><p>exec格式</p><blockquote><p>RUN [“可执行文件”,”参数1”,”参数2”]</p><p>例：RUN [“./test.php”,”dev”,”offline”] 等价于 RUN ./test.php dev offline</p></blockquote><h3 id="4-EXPOSE"><a href="#4-EXPOSE" class="headerlink" title="4.EXPOSE"></a>4.EXPOSE</h3><p>指定暴露的端口</p><h3 id="5-WORKDIR"><a href="#5-WORKDIR" class="headerlink" title="5.WORKDIR"></a>5.WORKDIR</h3><p>指定在创建容器后，终端默认登录进来的工作目录，一个落脚点</p><h3 id="6-ENV"><a href="#6-ENV" class="headerlink" title="6.ENV"></a>6.ENV</h3><p>用来在构建镜像过程中设置环境变量，这个环境变量可以在后续的任何RUN指令中使用，也可以在其它指令中直接使用这些环境变量</p><h3 id="7-VOLUME"><a href="#7-VOLUME" class="headerlink" title="7.VOLUME"></a>7.VOLUME</h3><p>容器数据卷，用于数据保存和持久化工作</p><h3 id="8-ADD"><a href="#8-ADD" class="headerlink" title="8.ADD"></a>8.ADD</h3><p>将宿主机目录下的文件拷贝进镜像且会自动处理URL和解压tar压缩包</p><h3 id="9-COPY"><a href="#9-COPY" class="headerlink" title="9.COPY"></a>9.COPY</h3><p>类似ADD，拷贝文件和目录到镜像中，将从构建上下文目录中&lt; 源路径 &gt;的文件/目录复制到新的一层的镜像内的&lt; 目标路径 &gt;</p><blockquote><p>COPY [SRC] [DEST]</p><p>SRC:源文件或者源目录</p><p>DEST：容器内的指定路径（不用提前建立）</p></blockquote><h3 id="10-CMD"><a href="#10-CMD" class="headerlink" title="10.CMD"></a>10.CMD</h3><p>指定容器启动后要做的事情</p><p>注意：Dockerfile中可以有多个CMD指令，但是只有最后一个生效，CMD会被docker run之后的参数替换</p><blockquote><p>例：</p><p>docker run -it -p 8080:8080 [CONTAINERID] /bin/bash</p><p>/bin/bass会覆盖掉dockerfile文件中的CMD命令，等价于CMD [“/bin/bash”,”run”],可能会导致问题</p></blockquote><p><strong>CMD和RUN的区别：</strong>CMD在docker run时运行，RUN在docker build时运行</p><h3 id="11-ENTRYPOINT"><a href="#11-ENTRYPOINT" class="headerlink" title="11.ENTRYPOINT"></a>11.ENTRYPOINT</h3><p>类似于CMD命令，也是用来指定容器启动时要运行的命令，但是ENTRYPOINT不会被docker run后面的命令覆盖，而且这些命令行参数会被当做参数送给ENTRYPOINT指令指定的程序</p><blockquote><p>ENTRYPOINT [“executeable”,”param1”,”param2”]</p></blockquote><p>ENTRYPOINT可以和CMD一起使用，当指定了ENTRYPOINT后，CMD的含义就发生了变化，不再是直接运行其命令而是将其作为参数传给ENTRYPOINT指令，变为&lt; ENTRYPOINT &gt; “&lt; CMD &gt;”主要用于传递变参</p><p>例：</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">ENTRYPOINT</span><span class="bash"> [<span class="hljs-string">&quot;nginx&quot;</span>,<span class="hljs-string">&quot;-c&quot;</span>]     <span class="hljs-comment">#定参</span></span><br><span class="hljs-keyword">CMD</span><span class="bash"> [<span class="hljs-string">&quot;/etc/nginx/nginx.conf&quot;</span>] <span class="hljs-comment"># 变参</span></span><br></code></pre></td></tr></table></figure><p>如果不传参数</p><blockquote><p>docker run nginx:latest</p><p>最终执行的命令为</p><p>nginx -c /etc/nginx/nginx.conf</p></blockquote><p>如果传参数</p><blockquote><p>docker run nginx:latest -c /etc/nginx/new.conf</p><p>最终执行的命令为</p><p>nginx -c /etc/nginx/new.conf</p></blockquote><h2 id="三、-docker构建命令"><a href="#三、-docker构建命令" class="headerlink" title="三、 docker构建命令"></a>三、 docker构建命令</h2><p>在Dockerfile文件同级目录下运行命令</p><blockquote><p>docker build -t 新镜像名字:tag</p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>Docker</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>docker</tag>
+      
+      <tag>Dockerfile</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Docker常用命令</title>
     <link href="/hexo-blog/2022/03/08/Docker%E5%91%BD%E4%BB%A4/"/>
     <url>/hexo-blog/2022/03/08/Docker%E5%91%BD%E4%BB%A4/</url>

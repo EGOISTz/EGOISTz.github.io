@@ -20,7 +20,7 @@
   <meta name="author" content="Ego">
   <meta name="keywords" content="Java">
   
-  <title>Docker常用命令 - Ego&#39;s Blog</title>
+  <title>Dockerfile简介 - Ego&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -165,7 +165,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Docker常用命令">
+            <span class="h2" id="subtitle" title="Dockerfile简介">
               
             </span>
 
@@ -175,8 +175,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-03-08 17:11" pubdate>
-        2022年3月8日 下午
+      <time datetime="2022-03-09 00:31" pubdate>
+        2022年3月9日 凌晨
       </time>
     </span>
   
@@ -187,7 +187,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.1k 字
+      805 字
     </span>
   
 
@@ -197,7 +197,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      14
+      9
        分钟
     </span>
   
@@ -235,141 +235,73 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Docker常用命令</h1>
+            <h1 style="display: none">Dockerfile简介</h1>
             
             <div class="markdown-body">
-              <h1 id="Docker常用命令"><a href="#Docker常用命令" class="headerlink" title="Docker常用命令"></a>Docker常用命令</h1><h2 id="一、镜像命令"><a href="#一、镜像命令" class="headerlink" title="一、镜像命令"></a>一、镜像命令</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 列出本地主机上的镜像</span><br>docker images<br><span class="hljs-comment">#参数：-a 列出本地所有的镜像（含历史映像层）；</span><br><span class="hljs-comment">#	  -q 只显示镜像id</span><br><br><br><span class="hljs-comment">#在远程仓库搜索镜像</span><br>docker search [imageName]<br><span class="hljs-comment">#参数：--limit [n] 只列出n个镜像，默认W为25个</span><br><span class="hljs-comment">#例： docker search --limit 5 redis </span><br><br><span class="hljs-comment">#下载镜像</span><br>docker pull [imageName:tag]<br><span class="hljs-comment">#例：docker pull redis:6.0.8</span><br><br><span class="hljs-comment">#查看镜像、容器、数据卷所占的空间</span><br>docker system df <br><br><span class="hljs-comment">#删除镜像</span><br>docker rmi [imageName]<br>docker rmi [imageId]<br><span class="hljs-comment">#参数： -f 强制删除</span><br><br><span class="hljs-comment">#删除多个</span><br>docker rmi -f [imageName1:tag] [imageName2:tag]<br><br><span class="hljs-comment">#删除全部</span><br>docker rmi -f $(docker images -qa)<br></code></pre></td></tr></table></figure>
+              <h1 id="Dockerfile简介"><a href="#Dockerfile简介" class="headerlink" title="Dockerfile简介"></a>Dockerfile简介</h1><p>Dockerfile是用来构建Docker镜像的文本文件，是由一条条构建镜像所需的指令和参数构成的脚本</p>
+<h2 id="一、构建大致流程："><a href="#一、构建大致流程：" class="headerlink" title="一、构建大致流程："></a>一、构建大致流程：</h2><ol>
+<li>docker从基础镜像运行一个容器</li>
+<li>执行一条指令并对容器做出修改</li>
+<li>执行类似docker commit的操作提交一个新的镜像层</li>
+<li>docker再基于刚提交的镜像运行一个新容器</li>
+<li>执行dockerfile中的下一条指令直到所有指令执行完成</li>
+</ol>
+<h2 id="二、dockerfile常用保留字"><a href="#二、dockerfile常用保留字" class="headerlink" title="二、dockerfile常用保留字"></a>二、dockerfile常用保留字</h2><h3 id="1-FROM"><a href="#1-FROM" class="headerlink" title="1.FROM"></a>1.FROM</h3><p>指定基础镜像，当前镜像是基于哪个镜像的，指定一个已经存在的镜像作为模板</p>
+<h3 id="2-MAINTAINER"><a href="#2-MAINTAINER" class="headerlink" title="2.MAINTAINER"></a>2.MAINTAINER</h3><p>镜像维护者的姓名和邮箱地址</p>
+<h3 id="3-RUN"><a href="#3-RUN" class="headerlink" title="3.RUN"></a>3.RUN</h3><p>容器构建时需要运行的命令，有两种格式：shell和exec格式，<strong>在docker build时执行</strong></p>
+<p>shell格式：</p>
+<blockquote>
+<p>RUN &lt;命令行命令&gt;</p>
+<p>例：RUN yum -y install vim </p>
+</blockquote>
+<p>exec格式</p>
+<blockquote>
+<p>RUN [“可执行文件”,”参数1”,”参数2”]</p>
+<p>例：RUN [“./test.php”,”dev”,”offline”] 等价于 RUN ./test.php dev offline</p>
+</blockquote>
+<h3 id="4-EXPOSE"><a href="#4-EXPOSE" class="headerlink" title="4.EXPOSE"></a>4.EXPOSE</h3><p>指定暴露的端口</p>
+<h3 id="5-WORKDIR"><a href="#5-WORKDIR" class="headerlink" title="5.WORKDIR"></a>5.WORKDIR</h3><p>指定在创建容器后，终端默认登录进来的工作目录，一个落脚点</p>
+<h3 id="6-ENV"><a href="#6-ENV" class="headerlink" title="6.ENV"></a>6.ENV</h3><p>用来在构建镜像过程中设置环境变量，这个环境变量可以在后续的任何RUN指令中使用，也可以在其它指令中直接使用这些环境变量</p>
+<h3 id="7-VOLUME"><a href="#7-VOLUME" class="headerlink" title="7.VOLUME"></a>7.VOLUME</h3><p>容器数据卷，用于数据保存和持久化工作</p>
+<h3 id="8-ADD"><a href="#8-ADD" class="headerlink" title="8.ADD"></a>8.ADD</h3><p>将宿主机目录下的文件拷贝进镜像且会自动处理URL和解压tar压缩包</p>
+<h3 id="9-COPY"><a href="#9-COPY" class="headerlink" title="9.COPY"></a>9.COPY</h3><p>类似ADD，拷贝文件和目录到镜像中，将从构建上下文目录中&lt; 源路径 &gt;的文件/目录复制到新的一层的镜像内的&lt; 目标路径 &gt;</p>
+<blockquote>
+<p>COPY [SRC] [DEST]</p>
+<p>SRC:源文件或者源目录</p>
+<p>DEST：容器内的指定路径（不用提前建立）</p>
+</blockquote>
+<h3 id="10-CMD"><a href="#10-CMD" class="headerlink" title="10.CMD"></a>10.CMD</h3><p>指定容器启动后要做的事情</p>
+<p>注意：Dockerfile中可以有多个CMD指令，但是只有最后一个生效，CMD会被docker run之后的参数替换</p>
+<blockquote>
+<p>例：</p>
+<p>docker run -it -p 8080:8080 [CONTAINERID] /bin/bash</p>
+<p>/bin/bass会覆盖掉dockerfile文件中的CMD命令，等价于CMD [“/bin/bash”,”run”],可能会导致问题</p>
+</blockquote>
+<p><strong>CMD和RUN的区别：</strong>CMD在docker run时运行，RUN在docker build时运行</p>
+<h3 id="11-ENTRYPOINT"><a href="#11-ENTRYPOINT" class="headerlink" title="11.ENTRYPOINT"></a>11.ENTRYPOINT</h3><p>类似于CMD命令，也是用来指定容器启动时要运行的命令，但是ENTRYPOINT不会被docker run后面的命令覆盖，而且这些命令行参数会被当做参数送给ENTRYPOINT指令指定的程序</p>
+<blockquote>
+<p>ENTRYPOINT [“executeable”,”param1”,”param2”]</p>
+</blockquote>
+<p>ENTRYPOINT可以和CMD一起使用，当指定了ENTRYPOINT后，CMD的含义就发生了变化，不再是直接运行其命令而是将其作为参数传给ENTRYPOINT指令，变为&lt; ENTRYPOINT &gt; “&lt; CMD &gt;”主要用于传递变参</p>
+<p>例：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">ENTRYPOINT</span><span class="bash"> [<span class="hljs-string">&quot;nginx&quot;</span>,<span class="hljs-string">&quot;-c&quot;</span>]     <span class="hljs-comment">#定参</span></span><br><span class="hljs-keyword">CMD</span><span class="bash"> [<span class="hljs-string">&quot;/etc/nginx/nginx.conf&quot;</span>] <span class="hljs-comment"># 变参</span></span><br></code></pre></td></tr></table></figure>
 
-<p><strong>虚悬镜像：仓库名和tag都为&lt; none &gt;的镜像（无用，建议删除</strong></p>
-<h2 id="二、容器命令"><a href="#二、容器命令" class="headerlink" title="二、容器命令"></a>二、容器命令</h2><h3 id="1-启动容器"><a href="#1-启动容器" class="headerlink" title="1.启动容器"></a>1.启动容器</h3><blockquote>
-<p>docker run [options] IMAGE [command] [arg…]</p>
-</blockquote>
-<p><strong>常用options参数：</strong></p>
-<p>–name=”containerName”  为容器指定一个名称</p>
-<p>-d 后台运行容器并返回容器id，也即启动守护式容器（后台运行）</p>
-<p>-i 为容器重新分配一个伪输入终端，通常与-i一起使用，也即启动交互式容器</p>
-<p>-P 随机端口映射，大写P</p>
-<p>-p 指定端口映射，小写p</p>
+<p>如果不传参数</p>
 <blockquote>
-<p>-p 6379:6379 左边为宿主机的端口，右边为docker中的端口</p>
+<p>docker run nginx:latest</p>
+<p>最终执行的命令为</p>
+<p>nginx -c /etc/nginx/nginx.conf</p>
 </blockquote>
-<p><strong>注意：有的镜像以-d参数后台启动后，由于前台没有运行的应用，该容器会立即自杀</strong></p>
-<h3 id="2-列出当前正在运行的容器"><a href="#2-列出当前正在运行的容器" class="headerlink" title="2.列出当前正在运行的容器"></a>2.列出当前正在运行的容器</h3><blockquote>
-<p>docker ps [options]</p>
-</blockquote>
-<p>参数： -a 列出当前正在运行的容器+历史上运行过的</p>
-<p>​            -l 显示最近创建的容器</p>
-<p>​            -n 显示最近n个创建的容器，例如 -n 3</p>
-<p>​            -q 静默模式，只显示容器编号</p>
-<h3 id="3-退出容器"><a href="#3-退出容器" class="headerlink" title="3.退出容器"></a>3.退出容器</h3><p><strong>exit：</strong>使用exit方式退出，容器会停止</p>
-<p><strong>ctrl+p+q：</strong>使用ctrl+p+q退出，容器不会停止</p>
-<h3 id="4-启动已停止运行的容器"><a href="#4-启动已停止运行的容器" class="headerlink" title="4.启动已停止运行的容器"></a>4.启动已停止运行的容器</h3><blockquote>
-<p>docker start [containerId]</p>
-<p>docker start [containerName]</p>
-</blockquote>
-<p>类似的，还有以下几种命令：</p>
-<p><strong>重启容器</strong></p>
+<p>如果传参数</p>
 <blockquote>
-<p>docker restart [containerId]</p>
-<p>docker restart [containerName]</p>
+<p>docker run nginx:latest -c /etc/nginx/new.conf</p>
+<p>最终执行的命令为</p>
+<p>nginx -c /etc/nginx/new.conf</p>
 </blockquote>
-<p><strong>停止容器</strong></p>
+<h2 id="三、-docker构建命令"><a href="#三、-docker构建命令" class="headerlink" title="三、 docker构建命令"></a>三、 docker构建命令</h2><p>在Dockerfile文件同级目录下运行命令</p>
 <blockquote>
-<p>docker stop [containerId]</p>
-<p>docker stop [containerName]</p>
+<p>docker build -t 新镜像名字:tag</p>
 </blockquote>
-<p><strong>强制停止容器</strong></p>
-<blockquote>
-<p>docker kill [containerId]</p>
-<p>docker kill [containerName]</p>
-</blockquote>
-<h3 id="5-删除已停止的容器"><a href="#5-删除已停止的容器" class="headerlink" title="5.删除已停止的容器"></a>5.删除已停止的容器</h3><blockquote>
-<p>docker rm [containerId]</p>
-</blockquote>
-<p>参数：-f 强制删除正在运行的容器</p>
-<p>一次删除多个容器实例</p>
-<blockquote>
-<p>docker rm -f $(docker ps -a -q)</p>
-</blockquote>
-<blockquote>
-<p>docker ps -a -q | xargs docker rm</p>
-</blockquote>
-<h3 id="6-查看容器日志"><a href="#6-查看容器日志" class="headerlink" title="6.查看容器日志"></a>6.查看容器日志</h3><blockquote>
-<p>docker logs [containerId]</p>
-</blockquote>
-<h3 id="7-查看容器内部细节"><a href="#7-查看容器内部细节" class="headerlink" title="7.查看容器内部细节"></a>7.查看容器内部细节</h3><blockquote>
-<p>docker inspect [containerId]</p>
-</blockquote>
-<h3 id="8-进入正在运行的容器"><a href="#8-进入正在运行的容器" class="headerlink" title="8.进入正在运行的容器"></a>8.进入正在运行的容器</h3><blockquote>
-<p>docker exec [OPTIONS] CONTAINER COMMAND [ARGS]</p>
-</blockquote>
-<p>exec是在容器中打开新的终端，并且可以启动新的进程，用exit退出不会导致容器停止</p>
-<blockquote>
-<p>docker attach [CONTAINERID]</p>
-</blockquote>
-<p>attach直接进入容器启动命令的终端，不会启动新的进程，使用exit退出会导致容器停止</p>
-<h3 id="9-从容器内拷贝文件到主机上"><a href="#9-从容器内拷贝文件到主机上" class="headerlink" title="9.从容器内拷贝文件到主机上"></a>9.从容器内拷贝文件到主机上</h3><blockquote>
-<p>docker cp [CONTAINERID:PATH] DESTPATH</p>
-</blockquote>
-<p>PATH：容器内路径 </p>
-<p>DESTPATH：目的主机路径</p>
-<h3 id="10-导入导出容器"><a href="#10-导入导出容器" class="headerlink" title="10.导入导出容器"></a>10.导入导出容器</h3><p><strong>导出容器</strong></p>
-<blockquote>
-<p>docker export [CONTAINERID] &gt; FILENAME.tar</p>
-</blockquote>
-<p><strong>导入容器</strong></p>
-<blockquote>
-<p>cat FILENAME.tar | docker import -IMAGEUER/IMAGENAME:tag</p>
-</blockquote>
-<h2 id="三、commit命令"><a href="#三、commit命令" class="headerlink" title="三、commit命令"></a>三、commit命令</h2><p>提交容器副本使之成为一个新的镜像</p>
-<blockquote>
-<p>docker commit -m=”MESSAGE”  -a=”AUTHOR” [CONTAINERID] [NEWNAME:tag] </p>
-</blockquote>
-<p>MESSAGE：描述信息</p>
-<p>AUTHOR：作者</p>
-<p>NEWNAME：要创建的目标镜像名</p>
-<p>tag: 版本</p>
-<h3 id="四、本地镜像推送到私服仓库"><a href="#四、本地镜像推送到私服仓库" class="headerlink" title="四、本地镜像推送到私服仓库"></a>四、本地镜像推送到私服仓库</h3><h3 id="1-拉取registry镜像并运行"><a href="#1-拉取registry镜像并运行" class="headerlink" title="1.拉取registry镜像并运行"></a>1.拉取registry镜像并运行</h3><blockquote>
-<p>docker pull registry</p>
-</blockquote>
-<blockquote>
-<p>docker run -d -p 5000:5000 -v /usr/ego/:/tmp/registry –privileged=true registry</p>
-</blockquote>
-<p>privileged=true 作用是提高容器至root权限</p>
-<p>默认情况下，仓库会建立在/var/lib/registry目录下</p>
-<h3 id="2-利用tag命令将镜像修改为符合私服规范的Tag"><a href="#2-利用tag命令将镜像修改为符合私服规范的Tag" class="headerlink" title="2.利用tag命令将镜像修改为符合私服规范的Tag"></a>2.利用tag命令将镜像修改为符合私服规范的Tag</h3><blockquote>
-<p>docker tag [IMAGE:tag] Host:Port/Repository:tag</p>
-</blockquote>
-<h3 id="3-修改配置文件以允许http方式推送镜像"><a href="#3-修改配置文件以允许http方式推送镜像" class="headerlink" title="3.修改配置文件以允许http方式推送镜像"></a>3.修改配置文件以允许http方式推送镜像</h3><blockquote>
-<p>vim /etc/docker/daemon.json</p>
-</blockquote>
-<p>新增以下内容：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json">&quot;insecure-registries&quot;:[&quot;192.168.111.162:5000&quot;]<br></code></pre></td></tr></table></figure>
-
-<p>重启docker</p>
-<blockquote>
-<p>systemctl restart docker</p>
-</blockquote>
-<h3 id="4-推送镜像到私服库"><a href="#4-推送镜像到私服库" class="headerlink" title="4.推送镜像到私服库"></a>4.推送镜像到私服库</h3><blockquote>
-<p>docker push [IMAGENAME:tag]</p>
-</blockquote>
-<p>[IMAGENAME:tag] :此处的名镜像名即为tag命令处理后的符合规范的镜像名</p>
-<h3 id="5-验证私服库上的镜像"><a href="#5-验证私服库上的镜像" class="headerlink" title="5.验证私服库上的镜像"></a>5.验证私服库上的镜像</h3><blockquote>
-<p>curl -XGET <a target="_blank" rel="noopener" href="http://192.168.111.162:5000/v2/_catalog">http://192.168.111.162:5000/v2/_catalog</a></p>
-</blockquote>
-<h3 id="6-pull镜像"><a href="#6-pull镜像" class="headerlink" title="6.pull镜像"></a>6.pull镜像</h3><blockquote>
-<p>docker pull [IMAGENAME:tag]</p>
-</blockquote>
-<h2 id="五、容器数据卷映射"><a href="#五、容器数据卷映射" class="headerlink" title="五、容器数据卷映射"></a>五、容器数据卷映射</h2><h3 id="1-映射命令"><a href="#1-映射命令" class="headerlink" title="1.映射命令"></a>1.映射命令</h3><blockquote>
-<p>docker run -it –privileged=true -v /HOSTPATH:/CONTAINERPATH [IMAGENAME]</p>
-</blockquote>
-<p>HOSTPATH:宿主机绝对路径目录</p>
-<p>CONTAINERPATH ：容器内目录</p>
-<p>挂载之后，宿主机目录和容器内的目录数据会共享，其中一个路径下的更改都会映射到另一个路径下，且容器重启后数据依然会被同步回来。</p>
-<h3 id="2-查看数据卷是否挂载成功"><a href="#2-查看数据卷是否挂载成功" class="headerlink" title="2.查看数据卷是否挂载成功"></a>2.查看数据卷是否挂载成功</h3><blockquote>
-<p>docker inspect [CONTAINERID]</p>
-</blockquote>
-<p>查询出的信息中的Mounts字段即为挂载目录的相关信息</p>
 
             </div>
             <hr>
@@ -389,9 +321,7 @@
                     
                       <a class="hover-with-bg" href="/hexo-blog/tags/docker/">docker</a>
                     
-                      <a class="hover-with-bg" href="/hexo-blog/tags/image/">image</a>
-                    
-                      <a class="hover-with-bg" href="/hexo-blog/tags/container/">container</a>
+                      <a class="hover-with-bg" href="/hexo-blog/tags/Dockerfile/">Dockerfile</a>
                     
                   </div>
                 
@@ -408,18 +338,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/hexo-blog/2022/03/09/Dockerfile%E7%AE%80%E4%BB%8B/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Dockerfile简介</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/hexo-blog/2022/02/12/mybatis%E8%8F%9C%E5%8D%95%E6%A0%91%E6%95%B0%E6%8D%AE%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2%E5%AE%9E%E7%8E%B0/">
-                        <span class="hidden-mobile">mybatis菜单树数据条件查询实现</span>
+                      <a href="/hexo-blog/2022/03/08/Docker%E5%91%BD%E4%BB%A4/">
+                        <span class="hidden-mobile">Docker常用命令</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
