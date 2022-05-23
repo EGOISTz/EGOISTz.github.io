@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>记一次文件上传报错问题</title>
+    <link href="/hexo-blog/2022/05/23/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/"/>
+    <url>/hexo-blog/2022/05/23/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%8A%A5%E9%94%99%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<h1 id="记一次文件上传报错问题"><a href="#记一次文件上传报错问题" class="headerlink" title="记一次文件上传报错问题"></a>记一次文件上传报错问题</h1><h2 id="一、问题"><a href="#一、问题" class="headerlink" title="一、问题"></a>一、问题</h2><p>后端在本地运行时，文件能够正常上传至移动云存储中，但是将程序部署到云服务器上后，再次执行文件上传操作报错。前端浏览器控制台请求返回504 Gateway Time-out，后端出现如下报错。</p><p>org.springframework.web.multipart.MultipartException: Failed to parse multipart servlet request; nested exception is java.io.IOException: </p><p>org.apache.tomcat.util.http.fileupload.impl.IOFileUploadException: Processing of multipart/form-data request failed. java.io.EOFException</p><h2 id="二、分析"><a href="#二、分析" class="headerlink" title="二、分析"></a>二、分析</h2><p>nginx访问出现504 Gateway Time-out，一般是由于程序执行时间过长导致响应超时，例如程序需要执行90秒，而nginx最大响应等待时间为30秒，这样就会出现超时。 </p><p>通常有以下几种情况导致</p><p>1.程序在处理大量数据，导致等待超时。<br>2.程序中调用外部请求，而外部请求响应超时。<br>3.连接数据库失败而没有停止，死循环重新连。</p><p>出现这种情况，我们可以先优化程序，缩短执行时间。另一方面，可以调大nginx超时限制的参数，使程序可以正常执行。</p><h2 id="三、解决方法"><a href="#三、解决方法" class="headerlink" title="三、解决方法"></a>三、解决方法</h2><p>这里选择调整nginx超时参数。</p><p>在nginx.conf配置文件的server模块下添加如下参数：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs nginx.conf">proxy_connect_timeout 600; #秒 <br>proxy_send_timeout 600; #秒 <br>proxy_read_timeout 600; #秒 <br>proxy_buffer_size 16k; <br>proxy_buffers 4 64k; <br>proxy_busy_buffers_size 128k; <br>proxy_temp_file_write_size 128k;<br></code></pre></td></tr></table></figure><p>检测语法有无错误</p><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">nginx</span> -t<br></code></pre></td></tr></table></figure><p>无误后重启nginx服务器</p><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">nginx</span> -s reload<br></code></pre></td></tr></table></figure><p>重新执行上传文件操作，成功上传！</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>疑难杂症</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>error</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Linux常用命令</title>
     <link href="/hexo-blog/2022/03/16/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
     <url>/hexo-blog/2022/03/16/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
@@ -239,6 +264,8 @@
     <tags>
       
       <tag>swagger</tag>
+      
+      <tag>error</tag>
       
     </tags>
     
