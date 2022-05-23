@@ -278,7 +278,7 @@
 <p>​    -Dockerfile</p>
 <p>​    -nginx.conf</p>
 <p>2.构建镜像</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /usr/ego/milk_load/front<br>docker build -t milk-load-front:V1.0.0 .<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /usr/ego/milk_load/front<br>docker build -t milk-load-front:1.0.0 .<br></code></pre></td></tr></table></figure>
 
 <p>3.创建并运行容器</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -d --restart=always -p 3000:3000 --name=milk-load-front [CONTAINERID] <br></code></pre></td></tr></table></figure>
