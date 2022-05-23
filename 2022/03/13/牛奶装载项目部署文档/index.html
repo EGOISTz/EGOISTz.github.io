@@ -291,7 +291,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#进入Dockfile文件所在目录下</span><br><span class="hljs-comment"># -f 指定 Dockerfile 文件的路径</span><br><span class="hljs-comment"># 最后的 ./ 是指定该目录作为构建的环境目录</span><br>docker build -t milk-load-back:1.0.0 -f ./Dockerfile ./<br></code></pre></td></tr></table></figure>
 
 <p>4.创建并启动容器</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -d --restart=always -p 8080:8080 --name=milk-load-back [CONTAINERID]<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -d --restart=always -p 8080:8080 --name=milk-load-back [IMAGEID]<br></code></pre></td></tr></table></figure>
 
 
 
