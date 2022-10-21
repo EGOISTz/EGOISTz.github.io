@@ -184,6 +184,85 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/hexo-blog/2022/10/20/Redis%E7%BC%93%E5%AD%98/Redis%E7%BC%93%E5%AD%98/">Redis缓存</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/hexo-blog/2022/10/20/Redis%E7%BC%93%E5%AD%98/Redis%E7%BC%93%E5%AD%98/">
+          
+          
+            
+          
+          Redis缓存1.缓存更新策略​    
+
+
+
+
+内存淘汰
+超市剔除
+主动更新
+
+
+
+说明
+不同自己维护，利用redis的内部淘汰机制，当内存不足时自动淘汰部分数据。下次查询时更新缓存。
+给缓存数据添加TTL时间，到期后自动删除缓存。下次查询时更新缓存。
+编写业务逻辑，在修改数据库的同时，更新缓存。
+
+
+一致性
+差
+一般
+好
+
+
+维护成本
+无
+低
+高
+
+
+业务场景;
+
+低一致性需求：使用内存淘汰机
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-10-20 21:20" pubdate>
+              2022-10-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/hexo-blog/categories/Redis/">Redis</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/hexo-blog/tags/%E7%BC%93%E5%AD%98/">缓存</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/hexo-blog/2022/09/01/Java%20Stream%E8%AF%A6%E8%A7%A3/">Java Stream详解</a>
       </h1>
 
@@ -651,61 +730,6 @@ SysMenuMapper.xml1234567891011121314151617181920212223242526
               <a href="/hexo-blog/tags/mybatis/">mybatis</a>
             
               <a href="/hexo-blog/tags/resultMap%E6%98%A0%E5%B0%84/">resultMap映射</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/hexo-blog/2022/02/10/Mybatis%20resultMap%E5%A4%8D%E6%9D%82%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/">Mybatis resultMap复杂数据类型映射</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/hexo-blog/2022/02/10/Mybatis%20resultMap%E5%A4%8D%E6%9D%82%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/">
-          
-          
-            
-          
-          Mybatis resultMap复杂数据类型映射property指的是实体类中的属性名 column指的是数据库中对应的字段名
-association标签：
-​        一般用于一对一或多对一
-​        javaType指的是实体类的类型
-collection标签：
-​        一般用于一对多
-​        javaType指的是集合类型（一般为ArrayList）
-​ 
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-02-10 16:56" pubdate>
-              2022-02-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/hexo-blog/categories/Mybatis/">Mybatis</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/hexo-blog/tags/mybatis/">mybatis</a>
             
           </div>
         

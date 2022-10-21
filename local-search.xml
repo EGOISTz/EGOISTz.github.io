@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>Redis缓存</title>
+    <link href="/hexo-blog/2022/10/20/Redis%E7%BC%93%E5%AD%98/Redis%E7%BC%93%E5%AD%98/"/>
+    <url>/hexo-blog/2022/10/20/Redis%E7%BC%93%E5%AD%98/Redis%E7%BC%93%E5%AD%98/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Redis缓存"><a href="#Redis缓存" class="headerlink" title="Redis缓存"></a>Redis缓存</h1><h2 id="1-缓存更新策略"><a href="#1-缓存更新策略" class="headerlink" title="1.缓存更新策略"></a>1.缓存更新策略</h2><p>​    </p><table><thead><tr><th></th><th>内存淘汰</th><th>超市剔除</th><th>主动更新</th></tr></thead><tbody><tr><td>说明</td><td>不同自己维护，利用redis的内部淘汰机制，当内存不足时自动淘汰部分数据。下次查询时更新缓存。</td><td>给缓存数据添加TTL时间，到期后自动删除缓存。下次查询时更新缓存。</td><td>编写业务逻辑，在修改数据库的同时，更新缓存。</td></tr><tr><td>一致性</td><td>差</td><td>一般</td><td>好</td></tr><tr><td>维护成本</td><td>无</td><td>低</td><td>高</td></tr></tbody></table><p>业务场景;</p><ul><li><p>低一致性需求：使用内存淘汰机制。</p></li><li><p>高一致性需求：主动更新，并以超市剔除作为兜底方案。</p><p>读操作：</p><ul><li>缓存命中则直接返回</li><li>缓存未命中则擦护心数据库，并写入缓存</li></ul><p>写操作</p><ul><li>先写入数据库，然后再删除缓存</li><li>要确保数据库与缓存操作的原子性</li></ul></li></ul><p><strong>操作缓存和数据库时需要考虑的问题：</strong></p><ol><li><p>删除缓存还是更新缓存？</p><ul><li><p>更新缓存：每次更新数据库都要更新缓存，无效写操作较多。（×）</p></li><li><p>删除缓存：更新数据库时让缓存失效，查询时再更新缓存（√）    </p></li></ul></li><li><p>如何保证混村与数据库的操作同时成功或失败？</p><ul><li>单体系统：将缓存与与数据库操作放在同一个事务中</li><li>分布式系统：利用TCC等分布式事务方案</li></ul></li><li><p>先操作缓存还是先操作数据库？</p><ul><li><p>先删除缓存，再操作数据库</p></li><li><p>先操作数据库，再删除缓存（√）</p><p>这两种方式在多线程情况下都有可能会导致缓存与数据库中数据不一致的问题出现。但是由于操作数据库一般操作缓存更费时间，所以一般先<strong>先操作数据库，再删除缓存</strong>，这样可以使出现不一致情况的概率降低。</p></li></ul></li></ol><h2 id="2-缓存穿透"><a href="#2-缓存穿透" class="headerlink" title="2.缓存穿透"></a>2.缓存穿透</h2><p><strong>缓存穿透</strong>是指客户端请求的数据在缓存中和数据库中都不存在，这样缓存永远不会生效，这些请求都会打到数据库。</p><p>常见的解决方案有两种：</p><ul><li>缓存空对象<ul><li>优点：实现简单，维护方便</li><li>缺点：额外的内存消耗；可能造成短期的不一致</li></ul></li><li>布隆过滤<ul><li>优点：内存占用较少，没有多余key</li><li>缺点：实现复杂；存在误判可能</li></ul></li></ul><h2 id="3-缓存雪崩"><a href="#3-缓存雪崩" class="headerlink" title="3.缓存雪崩"></a>3.缓存雪崩</h2><p><strong>缓存雪崩</strong>是指在同一时段大量的缓存key同时失效或者Redis服务宕机，导致大量请求到达数据库，带来巨大压力。</p><p>解决方案：</p><ul><li>给不同的key的TTL添加随机值</li><li>利用Redis集群提高服务的可用性</li><li>给缓存业务添加降级限流策略</li><li>给业务添加多级缓存</li></ul><h2 id="4-缓存击穿"><a href="#4-缓存击穿" class="headerlink" title="4.缓存击穿"></a>4.缓存击穿</h2><p><strong>缓存击穿</strong>也叫热点key问题，就是一个被高并发访问并且缓存重建业务较复杂的key突然失效了，无数的请求会在瞬间给数据库带来巨大的冲击。</p><p>常见的解决方案有两种：</p><table><thead><tr><th>解决方案</th><th>优点</th><th>缺点</th></tr></thead><tbody><tr><td>互斥锁</td><td>没有额外内存消耗；保存一致性;实现简单</td><td>线程需要等待，性能受影响</td></tr><tr><td>逻辑过期</td><td>线程无需等待，性能较好</td><td>不保证一致性；有额外内存消耗；实现复杂</td></tr></tbody></table><p><strong>互斥锁示意图：</strong></p><img src="/hexo-blog/hexo-blog/2022/10/20/Redis%E7%BC%93%E5%AD%98/Redis%E7%BC%93%E5%AD%98/互斥锁 2022-10-21 154606.png" alt="互斥锁 2022-10-21 154606" style="zoom:50%;"><p>逻辑过期示意图：</p><img src="/hexo-blog/hexo-blog/2022/10/20/Redis%E7%BC%93%E5%AD%98/Redis%E7%BC%93%E5%AD%98/逻辑过期 2022-10-21 154606.png" alt="image-20221021154748234" style="zoom:50%;">]]></content>
+    
+    
+    <categories>
+      
+      <category>Redis</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>缓存</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Java Stream详解</title>
     <link href="/hexo-blog/2022/09/01/Java%20Stream%E8%AF%A6%E8%A7%A3/"/>
     <url>/hexo-blog/2022/09/01/Java%20Stream%E8%AF%A6%E8%A7%A3/</url>
