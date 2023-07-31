@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  
+    <meta name="description" content="Ego的个人博客">
+  
+  <meta name="author" content="Ego">
+  <meta name="keywords" content="Java">
+  
+  <title>牛奶装载项目部署文档 - Ego&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/hint.css/2.7.0/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/highlight.js/10.4.1/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"egoistz.github.io","root":"/","version":"1.8.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"go2OoFBAv9elV8bdkMwopvUH-gzGzoHsz","app_key":"KIaMPizYMGYr7zPA0RXRWqUa","server_url":"https://go2oofba.lc-cn-n1-shared.com"}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Ego的Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="牛奶装载项目部署文档">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-13 13:52" pubdate>
+        2022年3月13日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">牛奶装载项目部署文档</h1>
+            
+            <div class="markdown-body">
+              <h1 id="牛奶装载项目部署文档"><a href="#牛奶装载项目部署文档" class="headerlink" title="牛奶装载项目部署文档"></a>牛奶装载项目部署文档</h1><h2 id="一、Mysql环境部署"><a href="#一、Mysql环境部署" class="headerlink" title="一、Mysql环境部署"></a>一、Mysql环境部署</h2><p>1.docker拉取mysql镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker pull mysql:5.7<br></code></pre></td></tr></table></figure>
+
+<p>2.创建挂载文件所需目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">mkdir /home/mysql<br>mkdir /home/mysql/conf.d<br>mkdir /home/mysql/data/<br></code></pre></td></tr></table></figure>
+
+<p>3.创建my.cnf配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">touch /home/mysql/my.cnf<br></code></pre></td></tr></table></figure>
+
+<p>my.cnf配置文件内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs my.cnf">[mysql]<br>default-character-set&#x3D;utf8<br><br>[mysqld]<br>collation-server &#x3D; utf8_unicode_ci<br>init-connect&#x3D;&#39;SET NAMES utf8&#39;<br>character-set-server &#x3D; utf8<br>sql_mode&#x3D;ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION<br>lower_case_table_names&#x3D;1<br><br>[client]<br>default-character-set&#x3D;utf8<br><br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：mysql8.0以上版本取消了sql_mode属性中的NO_AUTO_CRATE_USER字段，用了Mysql启动会报错</strong></p>
+<p>4.创建容器，挂载文件配置并启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run --restart=always --privileged=<span class="hljs-literal">true</span> -d <br>-v /home/mysql/data/:/var/lib/mysql <br>-v /home/mysql/conf.d:/etc/mysql/conf.d <br>-v /home/mysql/my.cnf:/etc/mysql/my.cnf <br>-p 3306:3306 --name my-mysql <br>-e MYSQL_ROOT_PASSWORD=123456 <br>mysql:5.7<br></code></pre></td></tr></table></figure>
+
+<h2 id="二、Redis环境部署"><a href="#二、Redis环境部署" class="headerlink" title="二、Redis环境部署"></a>二、Redis环境部署</h2><p>1.docker拉取镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker pull redis<br></code></pre></td></tr></table></figure>
+
+<p>2.创建redis容器并运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -d -p 6379:6379 redis:latest<br></code></pre></td></tr></table></figure>
+
+<h2 id="三、Vue前端部署"><a href="#三、Vue前端部署" class="headerlink" title="三、Vue前端部署"></a>三、Vue前端部署</h2><p>1.打包成镜像前的准备：</p>
+<ul>
+<li>准备好前端打包好的dist文件夹</li>
+<li>准备Dockerfile文件</li>
+<li>准备nginx.conf配置文件</li>
+</ul>
+<p><strong>Dockerfile文件内容</strong></p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs Docker"><span class="hljs-keyword">FROM</span> nginx<br><span class="hljs-comment"># 将本地文件添加到容器中</span><br><span class="hljs-comment"># 将dist文件中的内容复制到 /usr/local/nginx/html/ 这个目录下面，该路径是nginx容器生成的一个虚拟路径，你的项目会存在这里。</span><br><span class="hljs-keyword">COPY</span><span class="bash"> dist/  /usr/<span class="hljs-built_in">local</span>/nginx/html/</span><br><span class="hljs-keyword">COPY</span><span class="bash"> nginx.conf /etc/nginx/nginx.conf</span><br><span class="hljs-comment"># 构建镜像时执行的命令</span><br><span class="hljs-keyword">RUN</span><span class="bash"> <span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;echo init ok!!&#x27;</span></span><br></code></pre></td></tr></table></figure>
+
+<p><strong>nginx.conf</strong>文件内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><code class="hljs nginx.conf"><br>#user  nobody;<br>worker_processes  1;<br><br>#error_log  logs&#x2F;error.log;<br>#error_log  logs&#x2F;error.log  notice;<br>#error_log  logs&#x2F;error.log  info;<br><br>#pid        logs&#x2F;nginx.pid;<br><br><br>events &#123;<br>    worker_connections  1024;<br>&#125;<br><br><br>http &#123;<br>    include       mime.types;<br>    default_type  application&#x2F;octet-stream;<br><br>    #log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;<br>    #                  &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;<br>    #                  &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;<br><br>    #access_log  logs&#x2F;access.log  main;<br><br>    sendfile        on;<br>    #tcp_nopush     on;<br><br>    #keepalive_timeout  0;<br>    keepalive_timeout  65;<br><br>    gzip  on; # 之前是 注释掉的<br>	gzip_static on;#是否开启gzip静态资源 - 添加的<br>	<br>	# gzip config<br>    gzip_min_length 1k;<br>    gzip_comp_level 9;<br>    gzip_types text&#x2F;plain application&#x2F;javascript application&#x2F;x-javascript text&#x2F;css application&#x2F;xml text&#x2F;javascript application&#x2F;x-httpd-php image&#x2F;jpeg image&#x2F;gif image&#x2F;png;<br>    gzip_vary on;<br>    gzip_disable &quot;MSIE [1-6]\.&quot;;<br>	<br>	server &#123;<br>		listen       3000;<br>		gzip  on; <br>		gzip_static on;#是否开启gzip静态资源 - 添加的<br>		server_name  124.223.63.154;<br>		<br><br>		#后台服务配置，配置了这个location便可以通过http:&#x2F;&#x2F;域名&#x2F;jeecg-boot&#x2F;xxxx 访问		<br>		location ^~ &#x2F;milk_load &#123;<br>			proxy_pass              http:&#x2F;&#x2F;124.223.63.154:8080&#x2F;milk_load&#x2F;;<br>			proxy_set_header        Host 124.223.63.154;<br>			proxy_set_header        X-Real-IP $remote_addr;<br>			proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;<br>		&#125;<br>		<br>		<br>		#解决Router(mode: &#39;history&#39;)模式下，刷新路由地址不能找到页面的问题<br>		location &#x2F; &#123;<br>			root   &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;html;<br>			index  index.html index.htm;<br>			if (!-e $request_filename) &#123;<br>				rewrite ^(.*)$ &#x2F;index.html?s&#x3D;$1 last;<br>				break;<br>			&#125;<br>		&#125;<br>		<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>下面以我自己的目录为例，文件层级如下：</p>
+<p>/usr/ego/milk_load/front</p>
+<p>​    -dist</p>
+<p>​    -Dockerfile</p>
+<p>​    -nginx.conf</p>
+<p>2.构建镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /usr/ego/milk_load/front<br>docker build -t milk-load-front:1.0.0 .<br></code></pre></td></tr></table></figure>
+
+<p>3.创建并运行容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -d --restart=always -p 3000:3000 --name=milk-load-front [CONTAINERID] <br></code></pre></td></tr></table></figure>
+
+<h2 id="四、后端Springboot部署"><a href="#四、后端Springboot部署" class="headerlink" title="四、后端Springboot部署"></a>四、后端Springboot部署</h2><p>1.准备jar包。利用maven执行分别clean、compile、package命令后获取主程序入口的jar包文件</p>
+<p>2.编写Dockerfile文件</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> java:<span class="hljs-number">8</span><br><span class="hljs-keyword">VOLUME</span><span class="bash"> /tmp</span><br><span class="hljs-keyword">ADD</span><span class="bash"> jeecg-boot-module-system-2.2.0.jar /milk-load.jar</span><br><span class="hljs-keyword">ENTRYPOINT</span><span class="bash"> [<span class="hljs-string">&quot;java&quot;</span>,<span class="hljs-string">&quot;-jar&quot;</span>,<span class="hljs-string">&quot;/milk-load.jar&quot;</span>]</span><br></code></pre></td></tr></table></figure>
+
+<p>3.构建镜像（Dockerfile和jar包在同一级目录下）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#进入Dockfile文件所在目录下</span><br><span class="hljs-comment"># -f 指定 Dockerfile 文件的路径</span><br><span class="hljs-comment"># 最后的 ./ 是指定该目录作为构建的环境目录</span><br>docker build -t milk-load-back:1.0.0 -f ./Dockerfile ./<br></code></pre></td></tr></table></figure>
+
+<p>4.创建并启动容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -d --restart=always -p 8080:8080 --name=milk-load-back [IMAGEID]<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="五、利用docker-compose方式快速启动"><a href="#五、利用docker-compose方式快速启动" class="headerlink" title="五、利用docker-compose方式快速启动"></a>五、利用docker-compose方式快速启动</h2><p>准备docker-compose.yml文件</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">version:</span> <span class="hljs-string">&quot;3&quot;</span><br><br><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">milk_load_back:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">milk-load-back:1.0.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">milk-load-back</span><br>    <span class="hljs-attr">ports:</span> <br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;8080:8080&quot;</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">/home/milk_load_back:/data</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">milk_load_net</span><br>    <span class="hljs-attr">depends_on:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">redis</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">mysql</span><br>      <br>  <span class="hljs-attr">milk_load_front:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">milk-load-front:1.0.0</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">milk-load-front</span><br>    <span class="hljs-attr">ports:</span> <br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;3000:3000&quot;</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">milk_load_net</span><br>    <span class="hljs-attr">depends_on:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">redis</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">milk_load_back</span><br>    <br>  <span class="hljs-attr">redis:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">redis:6.0.8</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;6379:6379&quot;</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">/home/redis/redis.conf:/etc/redis/redis.conf</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">/home/redis/data:/data</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">milk_load_net</span><br>    <span class="hljs-attr">command:</span> <span class="hljs-string">redis-server</span> <span class="hljs-string">/etc/redis/redis.conf</span><br>    <br>  <span class="hljs-attr">mysql:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mysql:5.7</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-attr">MYSQL_ROOT_PASSWORD:</span> <span class="hljs-string">&#x27;milk_load_yangtzeu&#x27;</span><br>      <span class="hljs-attr">MYSQL_ALLOW_EMPTY_PASSWORD:</span> <span class="hljs-string">&#x27;no&#x27;</span><br>    <span class="hljs-attr">ports:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;3306:3306&quot;</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">/home/mysql/data/:/var/lib/mysql</span> <br>      <span class="hljs-bullet">-</span> <span class="hljs-string">/home/mysql/my.cnf:/etc/mysql/my.cnf</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">/home/mysql/conf.d:/etc/mysql/conf.d</span> <br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">milk_load_net</span><br>    <span class="hljs-attr">command:</span> <span class="hljs-string">--default-authentication-plugin=mysql_native_password</span><br>    <br><span class="hljs-attr">networks:</span><br>    <span class="hljs-attr">milk_load_net:</span><br></code></pre></td></tr></table></figure>
+
+<p>同级目录下执行以下命令启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker-compose up -d<br></code></pre></td></tr></table></figure>
+
+<p>关闭命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker-compose stop<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：在使用这种方式之前，更改springboot配置文件中的mysql以及redis地址，用服务名来代替固定ip，避免因容器ip变化而导致连接失败。如下：</strong></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">url:</span> <span class="hljs-string">jdbc:mysql://mysql:3306/milk_load?characterEncoding=UTF-8&amp;useUnicode=true&amp;useSSL=false&amp;tinyInt1isBit=false</span><br><span class="hljs-attr">username:</span> <span class="hljs-string">root</span><br><span class="hljs-attr">password:</span> <span class="hljs-string">milk_load_yangtzeu</span><br><span class="hljs-attr">driver-class-name:</span> <span class="hljs-string">com.mysql.jdbc.Driver</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">redis:</span><br>    <span class="hljs-attr">database:</span> <span class="hljs-number">0</span><br>    <span class="hljs-attr">host:</span> <span class="hljs-string">redis</span><br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E9%83%A8%E7%BD%B2/">部署</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Docker/">Docker</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%83%A8%E7%BD%B2/">部署</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" rel="nofollow noopener noopener">CC BY-NC-ND 3.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/16/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux常用命令</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/09/Dockerfile%E7%AE%80%E4%BB%8B/">
+                        <span class="hidden-mobile">Dockerfile简介</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                  
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/valine/1.4.16/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "lqv2hCGARxDWAYQMQ0oak9p1-gzGzoHsz",
+          app_key: "fnuR2s7kbARHLTyq5T9ty7dD",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: false,
+          recordIP: true,
+          serverURLs: "https://lqv2hcga.lc-cn-n1-shared.com",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/tocbot/4.18.2/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/anchor-js/4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/clipboard.js/2.0.10/clipboard.min.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

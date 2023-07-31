@@ -1,0 +1,552 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  
+    <meta name="description" content="Ego的个人博客">
+  
+  <meta name="author" content="Ego">
+  <meta name="keywords" content="Java">
+  
+  <title>mybatis菜单树数据条件查询实现 - Ego&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/hint.css/2.7.0/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/highlight.js/10.4.1/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"egoistz.github.io","root":"/","version":"1.8.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"go2OoFBAv9elV8bdkMwopvUH-gzGzoHsz","app_key":"KIaMPizYMGYr7zPA0RXRWqUa","server_url":"https://go2oofba.lc-cn-n1-shared.com"}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Ego的Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="mybatis菜单树数据条件查询实现">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-02-12 21:19" pubdate>
+        2022年2月12日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      30
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">mybatis菜单树数据条件查询实现</h1>
+            
+            <div class="markdown-body">
+              <h1 id="mybatis菜单树数据条件查询实现"><a href="#mybatis菜单树数据条件查询实现" class="headerlink" title="mybatis菜单树数据条件查询实现"></a>mybatis菜单树数据条件查询实现</h1><p>通过Sql语句实现查询，将查询到的数据自动映射为对应的实体类中</p>
+<p>在实际编写过程中发现用sql语句进行实现时，语句比较复杂，且查询结果父菜单中子菜单可能出现重复结果。</p>
+<p>此方法仅供学习参考，不推荐利用此方法实现（推荐在程序端递归实现层级菜单数据）</p>
+<h2 id="SysMenuMapper-xml"><a href="#SysMenuMapper-xml" class="headerlink" title="SysMenuMapper.xml"></a>SysMenuMapper.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">mapper</span> <span class="hljs-meta-keyword">PUBLIC</span> <span class="hljs-meta-string">&quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span> <span class="hljs-meta-string">&quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">mapper</span> <span class="hljs-attr">namespace</span>=<span class="hljs-string">&quot;com.ego.system.mapper.SysMenuMapper&quot;</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!--此处映射的是SysMenu实体类中的所有属性--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">resultMap</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;BaseSysMenuResult&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;SysMenu&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">id</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;menuId&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;menu_id&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;menuName&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;menu_name&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;parentId&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;parent_id&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;orderNum&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;order_num&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;path&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;path&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;component&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;component&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;query&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;query&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;isFrame&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;is_frame&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;isCache&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;is_cache&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;menuType&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;menu_type&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;visible&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;visible&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;status&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;status&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;perms&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;perms&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;icon&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;createBy&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;create_by&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;createTime&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;create_time&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;updateBy&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;update_by&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;updateTime&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;update_time&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;remark&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;remark&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">resultMap</span>&gt;</span><br>    <br>    <br>    <span class="hljs-comment">&lt;!--此处映射的是SysMenuVO中的属性--&gt;</span><br>    <span class="hljs-comment">&lt;!--SysMenuVO继承SysMenu实体类，但多出一个属性：List&lt;SysMenuVO&gt; children ,此属性存储的是子菜单信息--&gt;</span><br>    <span class="hljs-comment">&lt;!--可将此映射理解为一个三级的菜单树--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">resultMap</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;SysMenuVOResult&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;SysMenuVO&quot;</span> <span class="hljs-attr">extends</span>=<span class="hljs-string">&quot;BaseSysMenuResult&quot;</span>&gt;</span><br>        <span class="hljs-comment">&lt;!--此处映射的是二级组件的信息--&gt;</span><br>        <span class="hljs-comment">&lt;!--columnPrefix=&quot;m2_&quot;为字段的前缀，即查询结果中的m2_menuId将被映射为二级组件的menuId属性--&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">collection</span> <span class="hljs-attr">columnPrefix</span>=<span class="hljs-string">&quot;m2_&quot;</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;children&quot;</span> <span class="hljs-attr">ofType</span>=<span class="hljs-string">&quot;SysMenuVO&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">id</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;menuId&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;menu_id&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;menuName&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;menu_name&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;parentId&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;parent_id&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;orderNum&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;order_num&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;path&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;path&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;component&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;component&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;query&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;query&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;isFrame&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;is_frame&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;isCache&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;is_cache&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;menuType&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;menu_type&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;visible&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;visible&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;status&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;status&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;perms&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;perms&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;icon&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;createBy&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;create_by&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;createTime&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;create_time&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;updateBy&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;update_by&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;updateTime&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;update_time&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;remark&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;remark&quot;</span>/&gt;</span><br>            <span class="hljs-comment">&lt;!--此处映射的是三级组件的信息--&gt;</span><br>            <span class="hljs-comment">&lt;!--columnPrefix=&quot;m3_&quot;为字段的前缀，即查询结果中的名m2_m3_menuId将被映射为三级组件的menuId属性--&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">collection</span> <span class="hljs-attr">columnPrefix</span>=<span class="hljs-string">&quot;m3_&quot;</span>  <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;children&quot;</span> <span class="hljs-attr">ofType</span>=<span class="hljs-string">&quot;SysMenuVO&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">id</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;menuId&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;menu_id&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;menuName&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;menu_name&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;parentId&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;parent_id&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;orderNum&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;order_num&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;path&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;path&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;component&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;component&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;query&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;query&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;isFrame&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;is_frame&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;isCache&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;is_cache&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;menuType&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;menu_type&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;visible&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;visible&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;status&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;status&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;perms&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;perms&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;icon&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;icon&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;createBy&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;create_by&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;createTime&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;create_time&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;updateBy&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;update_by&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;updateTime&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;update_time&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;remark&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;remark&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">collection</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">collection</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">resultMap</span>&gt;</span><br>  	<span class="hljs-comment">&lt;!--此处是动态为查询字段取别名，为查询出的属性添加对应的前缀，避免因查询出的结果中字段名重复影响映射结果--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">sql</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;addColumns&quot;</span>&gt;</span><br>        $&#123;tableAlias&#125;.menu_id as $&#123;prefix&#125;menu_id,<br>        $&#123;tableAlias&#125;.menu_name as $&#123;prefix&#125;menu_name,<br>        $&#123;tableAlias&#125;.parent_id as $&#123;prefix&#125;parent_id,<br>        $&#123;tableAlias&#125;.order_num as $&#123;prefix&#125;order_num,<br>        $&#123;tableAlias&#125;.path as $&#123;prefix&#125;path,<br>        $&#123;tableAlias&#125;.component as $&#123;prefix&#125;component,<br>        $&#123;tableAlias&#125;.query as $&#123;prefix&#125;query,<br>        $&#123;tableAlias&#125;.is_frame as $&#123;prefix&#125;is_frame,<br>        $&#123;tableAlias&#125;.is_cache as $&#123;prefix&#125;is_cache,<br>        $&#123;tableAlias&#125;.menu_type as $&#123;prefix&#125;menu_type,<br>        $&#123;tableAlias&#125;.visible as $&#123;prefix&#125;visible,<br>        $&#123;tableAlias&#125;.status as $&#123;prefix&#125;status,<br>        $&#123;tableAlias&#125;.perms as $&#123;prefix&#125;perms,<br>        $&#123;tableAlias&#125;.icon as $&#123;prefix&#125;icon,<br>        $&#123;tableAlias&#125;.create_by as $&#123;prefix&#125;create_by,<br>        $&#123;tableAlias&#125;.create_time as $&#123;prefix&#125;create_time,<br>        $&#123;tableAlias&#125;.update_by as $&#123;prefix&#125;update_by,<br>        $&#123;tableAlias&#125;.update_time as $&#123;prefix&#125;update_time,<br>        $&#123;tableAlias&#125;.remark as $&#123;prefix&#125;remark<br><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">sql</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;getAllMenuVOList&quot;</span> <span class="hljs-attr">parameterType</span>=<span class="hljs-string">&quot;QueryParams&quot;</span> <span class="hljs-attr">resultMap</span>=<span class="hljs-string">&quot;SysMenuVOResult&quot;</span>&gt;</span><br>        SELECT<br>            m1.*,<br>           <span class="hljs-tag">&lt;<span class="hljs-name">include</span> <span class="hljs-attr">refid</span>=<span class="hljs-string">&quot;addColumns&quot;</span>&gt;</span><br>               <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;tableAlias&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;m2&quot;</span>/&gt;</span><br>               <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;prefix&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;m2_&quot;</span>/&gt;</span><br>           <span class="hljs-tag">&lt;/<span class="hljs-name">include</span>&gt;</span><br>               ,<br>            <span class="hljs-tag">&lt;<span class="hljs-name">include</span> <span class="hljs-attr">refid</span>=<span class="hljs-string">&quot;addColumns&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;tableAlias&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;m3&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;prefix&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;m2_m3_&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">include</span>&gt;</span><br>        FROM<br>            ys_menu m1<br>                LEFT JOIN sys_menu m2 ON m2.parent_id = m1.menu_id<br>                <span class="hljs-tag">&lt;<span class="hljs-name">if</span> <span class="hljs-attr">test</span>=<span class="hljs-string">&quot;queryParams.param1 != null&quot;</span>&gt;</span><br>                    and m2.menu_name like concat( &#x27;%&#x27;, #&#123;queryParams.param1&#125;, &#x27;%&#x27; )<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">if</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">if</span> <span class="hljs-attr">test</span>=<span class="hljs-string">&quot;queryParams.param3 != null&quot;</span>&gt;</span><br>                    and m2.`status` = #&#123;queryParams.param3&#125;<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">if</span>&gt;</span><br>                LEFT JOIN sys_menu m3 ON m3.parent_id = m2.menu_id<br>                <span class="hljs-tag">&lt;<span class="hljs-name">if</span> <span class="hljs-attr">test</span>=<span class="hljs-string">&quot;queryParams.param1 != null&quot;</span>&gt;</span><br>                    and m2.menu_name like concat( &#x27;%&#x27;, #&#123;queryParams.param1&#125;, &#x27;%&#x27; )<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">if</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">if</span> <span class="hljs-attr">test</span>=<span class="hljs-string">&quot;queryParams.param3 != null&quot;</span>&gt;</span><br>                    and m2.`status` = #&#123;queryParams.param3&#125;<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">if</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">where</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">if</span> <span class="hljs-attr">test</span>=<span class="hljs-string">&quot;queryParams.param1 == null and queryParams.param3 == null&quot;</span>&gt;</span><br>                m1.parent_id = 0<br>            <span class="hljs-tag">&lt;/<span class="hljs-name">if</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">if</span> <span class="hljs-attr">test</span>=<span class="hljs-string">&quot;queryParams.param1 != null or queryParams.param3 == null&quot;</span>&gt;</span><br>                m1.menu_id in ( select m4.menu_id FROM sys_menu m4<br>                <span class="hljs-tag">&lt;<span class="hljs-name">where</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">if</span> <span class="hljs-attr">test</span>=<span class="hljs-string">&quot;queryParams.param1 != null&quot;</span>&gt;</span><br>                        m4.menu_name like concat(&#x27;%&#x27;, #&#123;queryParams.param1&#125;, &#x27;%&#x27;)<br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">if</span>&gt;</span><br><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">if</span> <span class="hljs-attr">test</span>=<span class="hljs-string">&quot;queryParams.param3 != null&quot;</span>&gt;</span><br>                        and m4.status = #&#123;queryParams.param3&#125;<br>                    <span class="hljs-tag">&lt;/<span class="hljs-name">if</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">where</span>&gt;</span><br>                )<br>            <span class="hljs-tag">&lt;/<span class="hljs-name">if</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">where</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br><br><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">mapper</span>&gt;</span><br><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="SysMenuMapper-java"><a href="#SysMenuMapper-java" class="headerlink" title="SysMenuMapper.java"></a>SysMenuMapper.java</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Mapper</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">SysMenuMapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseMapper</span>&lt;<span class="hljs-title">SysMenu</span>&gt; </span>&#123;<br><br>    <span class="hljs-comment">//TODO 此处是直接用sql查询出菜单及其子菜单数据，可以换一种实现方式，在程序端来实现</span><br>   <span class="hljs-comment">//次测试用例中只用到了QueryParams中的param1(代表菜单名) param3(代表菜单状态)两个参数</span><br>    <span class="hljs-function">List&lt;SysMenuVO&gt; <span class="hljs-title">getAllMenuVOList</span><span class="hljs-params">(<span class="hljs-meta">@Param(&quot;queryParams&quot;)</span>QueryParams queryParams)</span></span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="QueryParams-java"><a href="#QueryParams-java" class="headerlink" title="QueryParams.java"></a>QueryParams.java</h2><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@Data</span><br><span class="hljs-variable">@AllArgsConstructor</span><br><span class="hljs-variable">@NoArgsConstructor</span><br>public class QueryParams &#123;<br><br>    <span class="hljs-selector-tag">String</span> <span class="hljs-selector-tag">param1</span>;<br><br>    <span class="hljs-selector-tag">String</span> <span class="hljs-selector-tag">param2</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 用来存储状态字段</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-selector-tag">Boolean</span> <span class="hljs-selector-tag">param3</span>;<br><br>    <span class="hljs-selector-tag">Date</span> <span class="hljs-selector-tag">startDate</span>;<br><br>    <span class="hljs-selector-tag">Date</span> <span class="hljs-selector-tag">endDate</span>;<br><br>    <span class="hljs-selector-tag">Integer</span> <span class="hljs-selector-tag">pageSize</span>;<br><br>    <span class="hljs-selector-tag">Integer</span> <span class="hljs-selector-tag">pageNo</span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="菜单树程序实现"><a href="#菜单树程序实现" class="headerlink" title="菜单树程序实现"></a>菜单树程序实现</h2><p>//TODO </p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Mybatis/">Mybatis</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/mybatis/">mybatis</a>
+                    
+                      <a class="hover-with-bg" href="/tags/resultMap%E6%98%A0%E5%B0%84/">resultMap映射</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" rel="nofollow noopener noopener">CC BY-NC-ND 3.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/09/Dockerfile%E7%AE%80%E4%BB%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Dockerfile简介</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/02/10/Mybatis%20resultMap%E5%A4%8D%E6%9D%82%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%98%A0%E5%B0%84/">
+                        <span class="hidden-mobile">Mybatis resultMap复杂数据类型映射</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                  
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/valine/1.4.16/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "lqv2hCGARxDWAYQMQ0oak9p1-gzGzoHsz",
+          app_key: "fnuR2s7kbARHLTyq5T9ty7dD",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: false,
+          recordIP: true,
+          serverURLs: "https://lqv2hcga.lc-cn-n1-shared.com",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/tocbot/4.18.2/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/anchor-js/4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/clipboard.js/2.0.10/clipboard.min.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

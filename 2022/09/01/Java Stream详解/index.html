@@ -1,0 +1,650 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  
+    <meta name="description" content="Ego的个人博客">
+  
+  <meta name="author" content="Ego">
+  <meta name="keywords" content="Java">
+  
+  <title>Java Stream详解 - Ego&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/hint.css/2.7.0/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/highlight.js/10.4.1/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"egoistz.github.io","root":"/","version":"1.8.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"go2OoFBAv9elV8bdkMwopvUH-gzGzoHsz","app_key":"KIaMPizYMGYr7zPA0RXRWqUa","server_url":"https://go2oofba.lc-cn-n1-shared.com"}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Ego的Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Java Stream详解">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-09-01 16:09" pubdate>
+        2022年9月1日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      48
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Java Stream详解</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Java-Stream详解"><a href="#Java-Stream详解" class="headerlink" title="Java Stream详解"></a>Java Stream详解</h1><h2 id="一-什么是流"><a href="#一-什么是流" class="headerlink" title="一.什么是流"></a>一.什么是流</h2><p>流是从支持数据处理操作的源生成的元素序列，源可以是数组、文件、集合、函数。流不是集合元素，它不是数据结构并不保存数据，它的主要目的在于计算。</p>
+<h2 id="二-生成流的常用方式"><a href="#二-生成流的常用方式" class="headerlink" title="二.生成流的常用方式"></a>二.生成流的常用方式</h2><h3 id="1-通过集合创建"><a href="#1-通过集合创建" class="headerlink" title="1. 通过集合创建"></a>1. 通过集合创建</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//创建一个集合</span><br>List&lt;User&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>list.add(<span class="hljs-keyword">new</span> User(<span class="hljs-string">&quot;张三&quot;</span>,<span class="hljs-number">18</span>,<span class="hljs-string">&quot;男&quot;</span>));<br>list.add(<span class="hljs-keyword">new</span> User(<span class="hljs-string">&quot;李四&quot;</span>,<span class="hljs-number">18</span>,<span class="hljs-string">&quot;男&quot;</span>));<br>list.add(<span class="hljs-keyword">new</span> User(<span class="hljs-string">&quot;王五&quot;</span>,<span class="hljs-number">18</span>,<span class="hljs-string">&quot;女&quot;</span>));<br><span class="hljs-comment">//得到一个顺序流</span><br>Stream&lt;User&gt; stream = list.stream();<br><span class="hljs-comment">//得到一个并行了流</span><br>Stream&lt;User&gt; stream2 = list.parallelStream();<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-通过数组"><a href="#2-通过数组" class="headerlink" title="2.通过数组"></a>2.通过数组</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//先创建一个数组</span><br><span class="hljs-keyword">int</span>[] arr = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]&#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>&#125;;<br><span class="hljs-comment">//使用数组Arrays工具类获取Stream流</span><br>IntStream stream = Arrays.stream(arr);<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>通过Arrays.stream()方法生成流，并且该方法生成的流是数值流【即IntStream】而不是 Stream。补充一点使用数值流可以避免计算过程中拆箱装箱，提高性能</p>
+<p>Stream API提供了mapToInt、mapToDouble、mapToLong三种方式将对象流【即Stream 】转换成对应的数值流，同时提供了boxed方法将数值流转换为对象流.</p>
+<h3 id="3-通过Stream-of-方法"><a href="#3-通过Stream-of-方法" class="headerlink" title="3.通过Stream.of()方法"></a>3.通过Stream.of()方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">Stream&lt;Integer&gt; stream = Stream.of(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-通过Stream-iterate-和Stream-generate"><a href="#4-通过Stream-iterate-和Stream-generate" class="headerlink" title="4.通过Stream.iterate()和Stream.generate()"></a>4.通过Stream.iterate()和Stream.generate()</h3><p>iterate方法接受两个参数，第一个为初始化值，第二个为进行的函数操作，因为iterator生成的流为无限流，通过limit方法对流进行了截断，只生成10个偶数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//创建了10个元素从0到18</span><br>Stream&lt;Integer&gt; s =  Stream.iterate(<span class="hljs-number">0</span>, t -&gt; t + <span class="hljs-number">2</span>).limit(<span class="hljs-number">10</span>);<br>        <br></code></pre></td></tr></table></figure>
+
+<p>generate方法接受一个参数，方法参数类型为Supplier ，由它为流提供值。generate生成的流也是无限流，因此通过limit对流进行了截断。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//创建了10个随机数</span><br>Stream&lt;Double&gt; s2 =  Stream.generate(Math::random).limit(<span class="hljs-number">10</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="三-流程"><a href="#三-流程" class="headerlink" title="三.流程"></a>三.流程</h2><figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs glsl"><span class="hljs-number">1</span>）第一步：把集合转换为流<span class="hljs-keyword">stream</span><br><span class="hljs-number">2</span>）第二步：操作<span class="hljs-keyword">stream</span>流<br><span class="hljs-keyword">stream</span>流在管道中经过中间操作（intermediate operation）的处理，最后由最终操作(terminal operation)得到前面处理的结果<br><span class="hljs-number">123</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="四-操作符"><a href="#四-操作符" class="headerlink" title="四.操作符"></a>四.操作符</h2><h3 id="1-中间操作符"><a href="#1-中间操作符" class="headerlink" title="1.中间操作符"></a>1.中间操作符</h3><h4 id="（1-filter"><a href="#（1-filter" class="headerlink" title="（1) filter"></a>（1) filter</h4><p>​    功能：通过设置的条件过滤出符合条件的元素</p>
+<p>​    示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br>List&lt;String&gt; result = strings.stream()<br>    .filter(str -&gt; str.contains(<span class="hljs-string">&quot;ab&quot;</span>))<br>    .collect(Collectors.toList());<br>result.stream().forEach(System.out::println);<br><br><span class="hljs-comment">//输出结果: abc abd</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="（2-distinct"><a href="#（2-distinct" class="headerlink" title="（2) distinct"></a>（2) distinct</h4><p>​    功能：返回一个元素各异（根据流所生成元素的hashCode和equals方法实现）的流,可以理解为去重</p>
+<p>​    示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br>List&lt;String&gt; result = strings.stream()<br>    .distinct()<br>    .collect(Collectors.toList());<br><br>result.stream().forEach(System.out::println);<br><br><span class="hljs-comment">//输出结果: abc abd b ef ghq</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="（3-limit"><a href="#（3-limit" class="headerlink" title="（3) limit"></a>（3) limit</h4><p>​    功能：返回一个长度为n的流。</p>
+<p>​    示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br>List&lt;String&gt; result = strings.stream()<br>    .limit(<span class="hljs-number">3</span>)<br>    .collect(Collectors.toList());<br><br>result.stream().forEach(System.out::println);<br><br><span class="hljs-comment">//输出结果: abc abd b</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="（4-skip"><a href="#（4-skip" class="headerlink" title="（4) skip"></a>（4) skip</h4><p>​    功能：返回一个删除前n个元素的流。</p>
+<p>​    示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br>List&lt;String&gt; result = strings.stream()<br>    .skip(<span class="hljs-number">3</span>)<br>    .collect(Collectors.toList());<br><br>result.stream().forEach(System.out::println);<br><br><span class="hljs-comment">//输出结果: ef ghq ef ghq</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="（5-map"><a href="#（5-map" class="headerlink" title="（5) map"></a>（5) map</h4><p>​    功能：接受一个函数作为参数。这个函数会被应用到每个元素上，并将其映射成一个新的元素（使用映射一词，是因为它和转换类似，但其中的细微差别在于它是“创建一个新版本”而不是去“修改”）。</p>
+<p>​    示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br>List&lt;String&gt; result = strings.stream()<br>    .map(str -&gt; str.concat(<span class="hljs-string">&quot;_Ego&quot;</span>))<br>    .collect(Collectors.toList());<br><br>result.stream().forEach(System.out::println);<br><br><span class="hljs-comment">//输出结果: abc_Ego abd_Ego b_Ego ef_Ego ghq_Ego ef_Ego ghq_Ego</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="（6-flatMap"><a href="#（6-flatMap" class="headerlink" title="（6) flatMap"></a>（6) flatMap</h4><p>​    功能：使用flatMap方法的效果是，各个数组并不是分别映射成一个流，而是映射成流的内容。所有使用map(Arrays::stream)时生成的单个流都被合并起来，即扁平化为一个流。</p>
+<p>​    示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-comment">//strings中的每一个字符串都会经getStrStream()转换为对应的流，flatMap会将所有的这些流合并成一个单个的流，最后再由终止操作符输出为一个集合    </span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>    List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br>    List&lt;Character&gt; result = strings.stream()<br>        .flatMap(str -&gt; getStrStream(str))             <br>        .collect(Collectors.toList());<br><br>    result.stream().forEach(System.out::println);<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">* 将字符串转换为对应的Stream</span><br><span class="hljs-comment">* <span class="hljs-doctag">@param</span> str 待转换的字符串</span><br><span class="hljs-comment">* <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Stream&lt;Character&gt; <span class="hljs-title">getStrStream</span><span class="hljs-params">(String str)</span></span>&#123;<br>    List&lt;Character&gt; characterList = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; str.length(); i++) &#123;<br>        characterList.add(str.charAt(i));<br>    &#125;<br>    <span class="hljs-keyword">return</span> characterList.stream();<br>&#125;<br><br><span class="hljs-comment">//输出结果: a b c a b d b e f g h q e f g h q</span><br><br></code></pre></td></tr></table></figure>
+
+<h4 id="（7-sorted"><a href="#（7-sorted" class="headerlink" title="（7) sorted"></a>（7) sorted</h4><p>​    功能：返回排序后的流</p>
+<p>​    示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/*</span><br><span class="hljs-comment">*示例1</span><br><span class="hljs-comment">*/</span><br>List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br>List&lt;String&gt; result = strings.stream()<br>    .sorted()           <br>    .collect(Collectors.toList());<br><br>result.stream().forEach(System.out::println);<br><br><span class="hljs-comment">//输出结果abc abd b ef ef ghq ghq</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">*示例2,根据对象的属性值进行比较</span><br><span class="hljs-comment">*/</span><br>List&lt;User&gt; userList = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<br>userList.add(<span class="hljs-keyword">new</span> User(<span class="hljs-string">&quot;张三&quot;</span>,<span class="hljs-number">19</span>,<span class="hljs-string">&quot;男&quot;</span>));<br>userList.add(<span class="hljs-keyword">new</span> User(<span class="hljs-string">&quot;李四&quot;</span>,<span class="hljs-number">18</span>,<span class="hljs-string">&quot;男&quot;</span>));<br>userList.add(<span class="hljs-keyword">new</span> User(<span class="hljs-string">&quot;王五&quot;</span>,<span class="hljs-number">20</span>,<span class="hljs-string">&quot;女&quot;</span>));<br>List&lt;User&gt; result = userList.stream()<br>    .sorted(Comparator.comparing(User::getAge))<br>    .collect(Collectors.toList());<br><br>result.stream().forEach(System.out::println);<br><span class="hljs-comment">/*输出结果:</span><br><span class="hljs-comment">*	User&#123;name=&#x27;李四&#x27;, sex=&#x27;男&#x27;, age=18&#125;</span><br><span class="hljs-comment">*	User&#123;name=&#x27;张三&#x27;, sex=&#x27;男&#x27;, age=19&#125;</span><br><span class="hljs-comment">*	User&#123;name=&#x27;王五&#x27;, sex=&#x27;女&#x27;, age=20&#125;</span><br><span class="hljs-comment">*/</span><br><br></code></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="2-终止操作符"><a href="#2-终止操作符" class="headerlink" title="2.终止操作符"></a>2.<strong>终止操作符</strong></h3><h4 id="（1-anyMatch"><a href="#（1-anyMatch" class="headerlink" title="（1) anyMatch"></a>（1) anyMatch</h4><p>​    功能：检查是否至少匹配一个元素，若为真返回<strong>true</strong>，反之返回<strong>false</strong></p>
+<p>​    示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br><br><span class="hljs-keyword">boolean</span> result = strings.stream()<br>    .anyMatch(str -&gt; str.contains(<span class="hljs-string">&quot;gh&quot;</span>));<br><br>System.out.println(result);<br><br><span class="hljs-comment">//输出结果:true</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="（2-allMatch"><a href="#（2-allMatch" class="headerlink" title="（2) allMatch"></a>（2) allMatch</h4><p>​    功能：检查是否匹配所有元素，若为真返回<strong>true</strong>，反之返回<strong>false</strong></p>
+<p>​    示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br><br><span class="hljs-keyword">boolean</span> result = strings.stream()<br>    .allMatch(str -&gt; str.contains(<span class="hljs-string">&quot;gh&quot;</span>));<br><br>System.out.println(result);<br><br><span class="hljs-comment">//输出结果:false</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="（3-noneMatch"><a href="#（3-noneMatch" class="headerlink" title="（3) noneMatch"></a>（3) noneMatch</h4><p>​    功能：检查是否没有元素匹配，若为真返回<strong>true</strong>，反之返回<strong>false</strong></p>
+<p>​    示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br><br><span class="hljs-keyword">boolean</span> result = strings.stream()<br>    .noneMatch(str -&gt; str.contains(<span class="hljs-string">&quot;gh&quot;</span>));<br><br>System.out.println(result);<br><br><span class="hljs-comment">//输出结果:false</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="（4-findAny"><a href="#（4-findAny" class="headerlink" title="（4) findAny"></a>（4) findAny</h4><p>​    功能：返回当前流中的任意一个元素。</p>
+<p>​    示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"> List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br><br>Optional&lt;String&gt; result = strings.stream()<br>    .findAny();<br><span class="hljs-keyword">if</span>(result.isPresent())<br>    System.out.println(result);<br><br><span class="hljs-comment">//输出结果:Optional[ghq]</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>在普通的流中，findAny并不会随机输出，而是按照顺序输出，因为该流是有顺序的串行流，按照最优执行会按照顺序，如果要随机选择，需要改成并行流。<strong>另外：<code>findAny</code>不是为了随机而随机，而是为了进行最快速的选择，所以最好不要用在随机选择的场景。</strong></p>
+<h4 id="（5-findFirst"><a href="#（5-findFirst" class="headerlink" title="（5) findFirst"></a>（5) findFirst</h4><p>​    功能：返回当前流中的第一个元素。</p>
+<p>​    示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br><br>Optional&lt;String&gt; result = strings.stream()<br>    .findFirst();<br><span class="hljs-keyword">if</span>(result.isPresent())<br>    System.out.println(result);<br><br><span class="hljs-comment">//输出结果:Optional[abc]</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="（6-forEach"><a href="#（6-forEach" class="headerlink" title="（6) forEach"></a>（6) forEach</h4><p>​    功能：遍历流中的元素。</p>
+<p>​    示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br><br>strings.stream()<br>    .forEach(System.out::println);	<br><br><span class="hljs-comment">//输出结果: abc abd b ef ghq ef ghq</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="（7-collect"><a href="#（7-collect" class="headerlink" title="（7) collect"></a>（7) collect</h4><p>​    功能：将流转换为其它形式（如list，map，set）。</p>
+<p>​    <strong>示例1,转为list</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/*</span><br><span class="hljs-comment">*示例1：转为list</span><br><span class="hljs-comment">*/</span><br>List&lt;String&gt; result = strings.stream()<br>    .map(str -&gt; str.concat(<span class="hljs-string">&quot;_Ego&quot;</span>))<br>    .collect(Collectors.toList());<br><br>result.stream().forEach(System.out::println);<br><br><span class="hljs-comment">//输出结果: abc_Ego abd_Ego b_Ego ef_Ego ghq_Ego ef_Ego ghq_Ego</span><br></code></pre></td></tr></table></figure>
+<p><strong>示例2，转为map</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/*</span><br><span class="hljs-comment">*示例2：转为map</span><br><span class="hljs-comment">*/</span><br> List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br>      <br><span class="hljs-comment">//(key1, key2) -&gt; key2此种情况下，当k重复时，选取后一个键值</span><br>Map&lt;String, String&gt; result = strings.stream()<br>    .collect(Collectors.toMap(str -&gt; str.concat(<span class="hljs-string">&quot;_k&quot;</span>), str -&gt; str.concat(<span class="hljs-string">&quot;_v&quot;</span>), (key1, key2) -&gt; key2));<br><br><span class="hljs-keyword">for</span> (String key: result.keySet()) &#123;<br>    System.out.println(<span class="hljs-string">&quot;key: &quot;</span> + key +<span class="hljs-string">&quot;   value: &quot;</span>+ result.get(key));<br>&#125;<br><span class="hljs-comment">/*输出结果：</span><br><span class="hljs-comment">key: ghq_k   value: ghq_v</span><br><span class="hljs-comment">key: ef_k   value: ef_v</span><br><span class="hljs-comment">key: abc_k   value: abc_v</span><br><span class="hljs-comment">key: abd_k   value: abd_v</span><br><span class="hljs-comment">key: b_k   value: b_v</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>示例3，自定义一个Map来接收，不使用Collectors.toMap()</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//如果对转换后的顺序有要求，这里还可以使用LinkedHashMap</span><br>HashMap&lt;String, String&gt; result = strings.stream()<br>                .collect(HashMap::<span class="hljs-keyword">new</span>, (map, str) -&gt; map.put(str + <span class="hljs-string">&quot;_k&quot;</span>, str + <span class="hljs-string">&quot;_v&quot;</span>), HashMap::putAll);<br><span class="hljs-keyword">for</span> (String key: result.keySet()) &#123;<br>    System.out.println(<span class="hljs-string">&quot;key: &quot;</span> + key +<span class="hljs-string">&quot;   value: &quot;</span>+ result.get(key));<br>&#125;<br><span class="hljs-comment">/*输出结果： </span><br><span class="hljs-comment">key: ghq_k   value: ghq_v</span><br><span class="hljs-comment">key: ef_k   value: ef_v</span><br><span class="hljs-comment">key: abc_k   value: abc_v</span><br><span class="hljs-comment">key: abd_k   value: abd_v</span><br><span class="hljs-comment">key: b_k   value: b_v</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>示例4，转为set：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br><br>Set&lt;String&gt; result = strings.stream()<br>    .collect(Collectors.toSet());<br><br>result.stream().forEach(System.out::println);<br><span class="hljs-comment">//输出结果：ef ghq abd b abc</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="（8-count"><a href="#（8-count" class="headerlink" title="（8) count"></a>（8) count</h4><p>​    功能：返回流中元素总个数。</p>
+<p>​    示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br><br><span class="hljs-keyword">long</span> count = strings.stream().count();<br><br>System.out.println(count);<br><br><span class="hljs-comment">//输出结果:7</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="（9-reduce"><a href="#（9-reduce" class="headerlink" title="（9) reduce"></a>（9) reduce</h4><p>​    功能：可以将流中元素反复结合起来，得到一个新的值。</p>
+<p>​    <strong>示例1，不指定第一次执行时相加的元素：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br><br><span class="hljs-comment">//reduce方法接受两个参数，acc参数为表达式执行结果的缓存，也就是说说表达式这一次的执行结果会被作为下一次执行的参数，第二个参数item是stream中的每个元素</span><br>Optional&lt;String&gt; result = strings.stream()<br>    .reduce((acc, item) -&gt; acc + item);<br><br><span class="hljs-keyword">if</span>(result.isPresent())<br>    System.out.println(result);<br><br><span class="hljs-comment">//输出结果: Optional[abcabdbefghqefghq]</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>示例2，指定第一次执行时相加的元素</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br><span class="hljs-comment">//与前一种方法的区别是，首次执行时表达式中的acc参数为指定的&quot;1&quot;</span><br>String result = strings.stream()<br>    .reduce(<span class="hljs-string">&quot;1&quot;</span>, (acc, item) -&gt; acc + item);<br><br>System.out.println(result);<br><span class="hljs-comment">//输出结果： 1abcabdbefghqefghq</span><br></code></pre></td></tr></table></figure>
+
+<p>另外，我们会注意到第一种方法返回的结果由Optional进行了包装，而第二种方法没有，这是因为存在Stream为空的情况，若Stream流中的对象为Integer类型，如果不进行包装就直接返回，由于Integer类型允许为null，所以无法判断究竟是值本来就为空还是Stream为空，所以需要Optional进行包装。而第二种方法由于指定了初始值，所以不会出现返回结果为空的情况，当Stream为空时，reduce将直接返回初始值。</p>
+<p><strong>示例3,将计算结果转为一个新的类型</strong></p>
+<p>由于前两种实现有一个缺陷，即计算结果必须与Stream中的元素类型相同，如上面的代码示例，Stream中的元素为String类型，那么计算结果也必须为String，这导致了灵活性的不足。下面的方法不讲将计算结果与Stream中 的元素类型绑死，大大提升了灵活性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br><br>StringBuffer result = strings.stream()<br>    .reduce(<span class="hljs-keyword">new</span> StringBuffer(<span class="hljs-string">&quot;Ego_&quot;</span>), (acc, item) -&gt; <span class="hljs-keyword">new</span> StringBuffer(acc + item), (acc, item) -&gt; <span class="hljs-keyword">null</span>);<br><br>System.out.println(result);<br><span class="hljs-comment">//输出结果：Ego_abcabdbefghqefghq</span><br></code></pre></td></tr></table></figure>
+
+<p>第三个参数是用来处理多线程中每个线程结果如何合并的问题，举个例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br><br>StringBuffer result = strings.stream().parallel()<br>    .reduce(<span class="hljs-keyword">new</span> StringBuffer(<span class="hljs-string">&quot;Ego_&quot;</span>), (acc, item) -&gt; <span class="hljs-keyword">new</span> StringBuffer(acc + item), (acc, item) -&gt; <span class="hljs-keyword">new</span> StringBuffer(acc.append(item)));<br><br>System.out.println(result);<br><span class="hljs-comment">//输出结果： Ego_abcEgo_abdEgo_bEgo_efEgo_ghqEgo_efEgo_ghq</span><br></code></pre></td></tr></table></figure>
+
+<p>问题是，Ego_这个初始字符串被相加了7次，推想一下，使用并行流进行计算时，开启了7个线程进行计算</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs txt">Thread-1: Ego_ + abc = Ego_abc<br>Thread-2: Ego_ + abd = Ego_abd<br>Thread-3: Ego_ + b = Ego_b<br>Thread-4: Ego_ + ef = Ego_ef<br>Thread-5: Ego_ + ghq = Ego_ghq<br>Thread-6: Ego_ + ef = Ego_ef<br>Thread-7: Ego_ + ghq = Ego_ghq<br><br>最后将总结果进相加，即获取到：Ego_abcEgo_abdEgo_bEgo_efEgo_ghqEgo_efEgo_ghq<br></code></pre></td></tr></table></figure>
+
+<p>Ego_这个初始字符串被重复计算了多次，这是值得注意的地方，要解决这个问题只需在两个元素相加之后的结果中去除初始元素即可,代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; strings = Arrays.asList(<span class="hljs-string">&quot;abc&quot;</span>,<span class="hljs-string">&quot;abd&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>,<span class="hljs-string">&quot;ef&quot;</span>,<span class="hljs-string">&quot;ghq&quot;</span>);<br><br>StringBuffer result = strings.stream().parallel()<br>    .reduce(<span class="hljs-keyword">new</span> StringBuffer(<span class="hljs-string">&quot;Ego_&quot;</span>), (acc, item) -&gt; <span class="hljs-keyword">new</span> StringBuffer((acc + item).substring(<span class="hljs-number">4</span>,(acc + item).length())), (acc, item) -&gt; <span class="hljs-keyword">new</span> StringBuffer(acc.append(item)));<br><br>System.out.println(result);<br><span class="hljs-comment">//输出结果：abcabdbefghqefghq</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Java/JavaStream/">JavaStream</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaStream/">JavaStream</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" rel="nofollow noopener noopener">CC BY-NC-ND 3.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/20/Redis%E7%BC%93%E5%AD%98/Redis%E7%BC%93%E5%AD%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Redis缓存</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/30/%E5%85%B3%E4%BA%8Evue%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E8%B7%B3%E8%BD%AC%E7%99%BD%E5%B1%8F%E7%9A%84%E9%97%AE%E9%A2%98/">
+                        <span class="hidden-mobile">关于vue动态路由跳转白屏的问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                  
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/valine/1.4.16/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "lqv2hCGARxDWAYQMQ0oak9p1-gzGzoHsz",
+          app_key: "fnuR2s7kbARHLTyq5T9ty7dD",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: false,
+          recordIP: true,
+          serverURLs: "https://lqv2hcga.lc-cn-n1-shared.com",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/tocbot/4.18.2/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/anchor-js/4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/clipboard.js/2.0.10/clipboard.min.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

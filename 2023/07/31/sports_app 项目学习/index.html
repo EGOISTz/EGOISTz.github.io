@@ -1,0 +1,587 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  
+    <meta name="description" content="Ego的个人博客">
+  
+  <meta name="author" content="Ego">
+  <meta name="keywords" content="Java">
+  
+  <title>sports_app 项目学习 - Ego&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/hint.css/2.7.0/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/highlight.js/10.4.1/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"egoistz.github.io","root":"/","version":"1.8.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"go2OoFBAv9elV8bdkMwopvUH-gzGzoHsz","app_key":"KIaMPizYMGYr7zPA0RXRWqUa","server_url":"https://go2oofba.lc-cn-n1-shared.com"}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Ego的Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="sports_app 项目学习">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-07-31 18:01" pubdate>
+        2023年7月31日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      31
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">sports_app 项目学习</h1>
+            
+            <div class="markdown-body">
+              <h1 id="sports-app-项目学习"><a href="#sports-app-项目学习" class="headerlink" title="sports_app 项目学习"></a>sports_app 项目学习</h1><h2 id="一、创建异步任务"><a href="#一、创建异步任务" class="headerlink" title="一、创建异步任务"></a>一、创建异步任务</h2><h3 id="1-创建自定义ThreadPoolLogExecutor类继承Springboot提供的ThreadPoolTaskExecutor"><a href="#1-创建自定义ThreadPoolLogExecutor类继承Springboot提供的ThreadPoolTaskExecutor" class="headerlink" title="1.创建自定义ThreadPoolLogExecutor类继承Springboot提供的ThreadPoolTaskExecutor"></a>1.创建自定义ThreadPoolLogExecutor类继承Springboot提供的ThreadPoolTaskExecutor</h3><p>值得一提的是ThreadPoolTaskExecutor这个类Springboot已经为我们提供了，要使用的话可以直接@Autowired注入，此处由于需要自定义所以未使用这个类</p>
+<blockquote>
+<p>ThreadPoolLogExecutor.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadPoolLogExecutor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ThreadPoolTaskExecutor</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">log</span><span class="hljs-params">(String info)</span></span>&#123;<br>        ThreadPoolExecutor threadPoolExecutor = getThreadPoolExecutor();<br>        log.info(<span class="hljs-string">&quot;threadNamePrefix = &#123;&#125;, &#123;&#125;, taskCount [&#123;&#125;], completedTaskCount [&#123;&#125;], activeCount [&#123;&#125;], queueSize [&#123;&#125;]&quot;</span>,<br>                <span class="hljs-keyword">this</span>.getThreadNamePrefix(),<br>                info,<br>                threadPoolExecutor.getTaskCount(),<br>                threadPoolExecutor.getCompletedTaskCount(),<br>                threadPoolExecutor.getActiveCount(),<br>                threadPoolExecutor.getQueue().size());<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">(Runnable task)</span> </span>&#123;<br>        log(<span class="hljs-string">&quot;execute...&quot;</span>);<br>        <span class="hljs-keyword">super</span>.execute(task);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">(Runnable task, <span class="hljs-keyword">long</span> startTimeout)</span> </span>&#123;<br>        log(<span class="hljs-string">&quot;execute...&quot;</span>);<br>        <span class="hljs-keyword">super</span>.execute(task, startTimeout);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Future&lt;?&gt; submit(Runnable task) &#123;<br>        log(<span class="hljs-string">&quot;submit...&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.submit(task);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> &lt;T&gt; <span class="hljs-function">Future&lt;T&gt; <span class="hljs-title">submit</span><span class="hljs-params">(Callable&lt;T&gt; task)</span> </span>&#123;<br>        log(<span class="hljs-string">&quot;submit...&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.submit(task);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> ListenableFuture&lt;?&gt; submitListenable(Runnable task) &#123;<br>        log(<span class="hljs-string">&quot;submitListenable...&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.submitListenable(task);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> &lt;T&gt; <span class="hljs-function">ListenableFuture&lt;T&gt; <span class="hljs-title">submitListenable</span><span class="hljs-params">(Callable&lt;T&gt; task)</span> </span>&#123;<br>        log(<span class="hljs-string">&quot;submitListenable...&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.submitListenable(task);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-编写配置文件，注入刚才创建的ThreadPoolLogExecutor类"><a href="#2-编写配置文件，注入刚才创建的ThreadPoolLogExecutor类" class="headerlink" title="2.编写配置文件，注入刚才创建的ThreadPoolLogExecutor类"></a>2.编写配置文件，注入刚才创建的ThreadPoolLogExecutor类</h3><blockquote>
+<p>ThreadConfig.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableAsync</span><span class="hljs-comment">//开启async注解功能</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadConfig</span> </span>&#123;<br>    <span class="hljs-meta">@Bean(&quot;defaultExecutor&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> TaskExecutor <span class="hljs-title">defaultExecutor</span><span class="hljs-params">()</span></span>&#123;<br>        ThreadPoolTaskExecutor executor = <span class="hljs-keyword">new</span> ThreadPoolLogExecutor();<br>        <span class="hljs-comment">// 核心线程数</span><br>        executor.setCorePoolSize(<span class="hljs-number">8</span>);<br>        <span class="hljs-comment">// 最大线程数</span><br>        executor.setMaxPoolSize(<span class="hljs-number">10</span>);<br>        <span class="hljs-comment">// 队列容量</span><br>        executor.setQueueCapacity(<span class="hljs-number">10</span>);<br>        <span class="hljs-comment">// 线程活跃时间（秒）</span><br>        executor.setKeepAliveSeconds(<span class="hljs-number">1</span>);<br>        <span class="hljs-comment">// 默认线程名称</span><br>        executor.setThreadNamePrefix(<span class="hljs-string">&quot;sports-app-defaultExecutor-thread-&quot;</span>);<br>        <span class="hljs-comment">// 拒绝策略（线程池无可用线程，主线程自己执行）</span><br>        executor.setRejectedExecutionHandler(<span class="hljs-keyword">new</span> ThreadPoolExecutor.CallerRunsPolicy());<br>        <span class="hljs-comment">// 等待所有任务结束后再关闭线程池</span><br>        executor.setWaitForTasksToCompleteOnShutdown(<span class="hljs-keyword">true</span>);<br>        <span class="hljs-keyword">return</span> executor;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-将异步方法抽取到一个类中，避免某种情况下因为代理而导致-Async注解失效的问题"><a href="#3-将异步方法抽取到一个类中，避免某种情况下因为代理而导致-Async注解失效的问题" class="headerlink" title="3.将异步方法抽取到一个类中，避免某种情况下因为代理而导致@Async注解失效的问题"></a>3.将异步方法抽取到一个类中，避免某种情况下因为代理而导致@Async注解失效的问题</h3><blockquote>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">AsyncLogTask</span>.</span></span>java<br></code></pre></td></tr></table></figure>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AsyncLogTask</span> </span>&#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> LogMapper logMapper;<br><br>    <span class="hljs-meta">@Async(&quot;defaultExecutor&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(Log bean)</span></span>&#123;<br>        <span class="hljs-keyword">try</span>&#123;<br>            logMapper.insert(bean);<br>            log.info(<span class="hljs-string">&quot;=====子线程1执行: &quot;</span> + Thread.currentThread().getName());<br>        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;<br>            log.error(<span class="hljs-string">&quot;操作日志写入异常,exception=&#123;&#125;&quot;</span>, JSON.toJSONString(e));<br>        &#125;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-调用异步方法"><a href="#4-调用异步方法" class="headerlink" title="4.调用异步方法"></a>4.调用异步方法</h3><blockquote>
+<p>AccountController.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Api(tags = &quot;用户账户相关接口&quot;)</span><br><span class="hljs-meta">@RequestMapping(&quot;/api/account&quot;)</span><br><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AccountController</span> </span>&#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> AsyncLogTask logTask;<br>    <br>    <br>    <span class="hljs-meta">@ApiOperation(value=&quot;测试异步任务&quot;, notes=&quot;测试异步任务&quot;)</span><br>    <span class="hljs-meta">@PostMapping(&quot;/testAsync&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Result <span class="hljs-title">testAsync</span><span class="hljs-params">()</span></span>&#123;<br>        Log bean = Log.builder()<br>                .account(<span class="hljs-string">&quot;王征华&quot;</span>)<br>                .operateType(<span class="hljs-string">&quot;operateType&quot;</span>)<br>                .userType(<span class="hljs-number">0</span>)<br>                .userId(<span class="hljs-number">0</span>)<br>                .systemType(<span class="hljs-string">&quot;systemType&quot;</span>)<br>                .version(<span class="hljs-string">&quot;version&quot;</span>)<br>                .createTime(<span class="hljs-keyword">new</span> Date())<br>                .parameter(<span class="hljs-string">&quot;parameter&quot;</span>)<br>                .result(<span class="hljs-string">&quot;result&quot;</span>)<br>                .build();<br>        logTask.save(bean);<br>        <span class="hljs-keyword">return</span> Result.success(bean);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-执行结果"><a href="#5-执行结果" class="headerlink" title="5.执行结果"></a>5.执行结果</h3>
+
+<p>用到的其他类：</p>
+<blockquote>
+<p>LogMapper.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Mapper</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">LogMapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseMapper</span>&lt;<span class="hljs-title">Log</span>&gt; </span>&#123;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Log.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Data</span><br><span class="hljs-meta">@Builder</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Log</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@TableId(value = &quot;id&quot;, type = IdType.AUTO)</span><br>    <span class="hljs-keyword">private</span> Long id;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     账号</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> String account;<br><br><br>    <span class="hljs-keyword">private</span> Integer userId;<br><br><br>    <span class="hljs-keyword">private</span> Integer userType;<br><br>    <span class="hljs-keyword">private</span> String systemType;<br><br>    <span class="hljs-keyword">private</span> String version;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     操作类型</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> String operateType;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     操作内容</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> String operateContent;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 输入参数</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> String parameter;<br><br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 返回结果</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> String result;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     创建日期</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> Date createTime;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="二、拦截器配置"><a href="#二、拦截器配置" class="headerlink" title="二、拦截器配置"></a>二、拦截器配置</h2><p><strong>什么是拦截器</strong>：在AOP（Aspect-Oriented Programming）中用于在某个方法或字段被访问之前，进行拦截然后在之前或之后加入某些操作。拦截是AOP的一种实现策略</p>
+<p><strong>为什么需要拦截器</strong>：在做身份认证或者是进行日志的记录时，我们需要通过拦截器达到我们的目的。最常用的登录拦截、或是权限校验、或是防重复提交、或是根据业务像12306去校验购票时间,总之可以去做很多的事情</p>
+<p><strong>如何用拦截器</strong>：在spring中用拦截器需要实现HandlerInterceptor接口或者它的实现子类：HandlerInterceptorAdapter，同时在applicationContext.xml文件中配置拦截器</p>
+<h3 id="定义实现类："><a href="#定义实现类：" class="headerlink" title="定义实现类："></a><strong>定义实现类：</strong></h3><ol>
+<li>类要实现Spring 的HandlerInterceptor 接口</li>
+<li>类继承实现了HandlerInterceptor 接口的类，例如 已经提供的实现了HandlerInterceptor 接口的抽象类HandlerInterceptorAdapter</li>
+</ol>
+<p>下面用接口形式定义：</p>
+<blockquote>
+<p>LoginInterceptor.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 拦截器，登录检查</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoginInterceptor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">HandlerInterceptor</span> </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> RedisUtil redisUtil;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;webmvc.switch&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> Integer webmvcSwitch;<br><br>    <span class="hljs-meta">@Value(&quot;$&#123;server.servlet.path&#125;&quot;)</span><br>    <span class="hljs-keyword">private</span> String servletPath;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> TokenUtil tokenUtil;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> SchoolSeqMapper schoolSeqMapper;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> ApplicationContext applicationContext;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">preHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> </span>&#123;<br>        <span class="hljs-comment">//0、不开启Authorization校验、权限拦截 1、开启</span><br>        <span class="hljs-keyword">if</span> (<span class="hljs-number">0</span> == webmvcSwitch) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span>(request.getMethod().equals(<span class="hljs-string">&quot;OPTIONS&quot;</span>))&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>        &#125;<br>        String api = request.getRequestURI();<br>        <span class="hljs-keyword">if</span> (api.contains(<span class="hljs-string">&quot;/null/&quot;</span>))&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>        &#125;<br>        String token = request.getHeader(<span class="hljs-string">&quot;token&quot;</span>);<br>        log.info(request.getMethod());<br>        log.info(<span class="hljs-string">&quot;token=&#123;&#125;,访问api=&#123;&#125;&quot;</span>, token, api);<br>        <span class="hljs-keyword">if</span> (StrUtil.isNotBlank(token)) &#123;<br>            <span class="hljs-comment">//1、校验token有效性</span><br>            AuthLoginRespDto loginRespDto = redisUtil.get(token, AuthLoginRespDto.class);<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> == loginRespDto) &#123;<br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> SportException(ErrorEnum.USER_NO_LOGIN_ERROR);<br>            &#125;<br>            checkType(api,token);<span class="hljs-comment">//检测接口类型是否与token用户匹配</span><br>            checkSchoolCode();<br><br>            <span class="hljs-comment">//2、延长token有效时长</span><br>            redisUtil.set(token, loginRespDto, Constants.TOKEN_EXPIRE_TIME);<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> SportException(ErrorEnum.USER_NO_LOGIN_ERROR);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">postHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</span> </span>&#123;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">afterCompletion</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> </span>&#123;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">checkType</span><span class="hljs-params">(String api,String token)</span></span>&#123;<br>        api = api.replace(servletPath, <span class="hljs-string">&quot;&quot;</span>);<br>        RequestMappingHandlerMapping mapping = applicationContext.getBean(RequestMappingHandlerMapping.class);<br>        Map&lt;RequestMappingInfo, HandlerMethod&gt; methodMap = mapping.getHandlerMethods();<br>        <span class="hljs-keyword">for</span> (RequestMappingInfo requestMappingInfo : methodMap.keySet()) &#123;<br>            <span class="hljs-keyword">if</span> (requestMappingInfo.getPatternsCondition().getPatterns().contains(api))&#123;<br>                HandlerMethod rightHandlerMethod = methodMap.get(requestMappingInfo);<br>                Method method = rightHandlerMethod.getMethod();<br>                Annotation annotation = method.getAnnotation(SchoolRoot.class);<br><br>                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> != annotation)&#123;<br>                   <span class="hljs-keyword">if</span>(!token.startsWith(Constants.SCHOOL_ROOT_HEADER))&#123;<br>                       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> SportException(ErrorEnum.USER_TYPE_NOT_SCHOOL_ROOT);<br>                   &#125;<br>                &#125;<br>                annotation = method.getAnnotation(Student.class);<br>                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> != annotation)&#123;<br>                    <span class="hljs-keyword">if</span>(!token.startsWith(Constants.SCHOOL_STUDENT_HEADER))&#123;<br>                        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> SportException(ErrorEnum.USER_TYPE_IS_NOT_STUDENT);<br>                    &#125;<br>                &#125;<br><br>                annotation = method.getAnnotation(Teacher.class);<br>                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> != annotation)&#123;<br>                    <span class="hljs-keyword">if</span>(!token.startsWith(Constants.SCHOOL_TEACHER_HEADER))&#123;<br>                        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> SportException(ErrorEnum.USER_TYPE_NOT_TEACHER);<br>                    &#125;<br>                &#125;<br><br>                annotation = method.getAnnotation(WebRoot.class);<br>                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> != annotation)&#123;<br>                    <span class="hljs-keyword">if</span>(!token.startsWith(Constants.WEB_USER_TOKEN))&#123;<br>                        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> SportException(ErrorEnum.USER_TYPE_NOT_WEB_ROOT);<br>                    &#125;<br>                &#125;<br><br><br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">checkSchoolCode</span><span class="hljs-params">()</span></span>&#123;<br><br>        String schoolCode=tokenUtil.getSchoolCode();<br>        <span class="hljs-keyword">if</span> (StringUtils.isNotBlank(schoolCode))&#123;<br>            SchoolSeq schoolSeq = schoolSeqMapper.selectBySeq(schoolCode);<br>            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> == schoolSeq)&#123;<br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> SportException(ErrorEnum.SCHOOL_SEQ_NUM_ERROR);<br>            &#125;<br>            <span class="hljs-keyword">if</span> (schoolSeq.getStatus().equals(Constants.SCHOOL_SEQ_STATUS_NO))&#123;<br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> SportException(ErrorEnum.SCHOOL_SEQ_STATUS_NO);<br>            &#125;<br>        &#125;<br><br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>preHandle：在业务处理器处理请求之前被调用。预处理，可以进行编码、安全控制、权限校验等处理；</li>
+<li>postHandle：在业务处理器处理请求执行完成后，生成视图之前执行。后处理（调用了Service并返回ModelAndView，但未进行页面渲染），有机会修改ModelAndView （这个博主就基本不怎么用了）；</li>
+<li>afterCompletion：在DispatcherServlet完全处理完请求后被调用，可用于清理资源等。返回处理（已经渲染了页面）；</li>
+</ul>
+<h3 id="新建WebMvcConfig-实现WebMvcConfigurer接口"><a href="#新建WebMvcConfig-实现WebMvcConfigurer接口" class="headerlink" title="新建WebMvcConfig 实现WebMvcConfigurer接口"></a>新建WebMvcConfig 实现WebMvcConfigurer接口</h3><blockquote>
+<p>WebMvcConfig.java</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableAspectJAutoProxy</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WebMvcConfig</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">WebMvcConfigurer</span> </span>&#123;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> LoginInterceptor loginInterceptor;<br><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> CorsInterceptor corsInterceptor;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addInterceptors</span><span class="hljs-params">(InterceptorRegistry registry)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.loginInterceptor(registry);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span>  <span class="hljs-title">loginInterceptor</span><span class="hljs-params">(InterceptorRegistry registry)</span></span>&#123;<br>        registry.addInterceptor(corsInterceptor).addPathPatterns(<span class="hljs-string">&quot;/**&quot;</span>);<br>        registry.addInterceptor(loginInterceptor)<br>                .addPathPatterns(<span class="hljs-string">&quot;/**&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/swagger-resources/**&quot;</span>, <span class="hljs-string">&quot;/webjars/**&quot;</span>, <span class="hljs-string">&quot;/v2/**&quot;</span>, <span class="hljs-string">&quot;/swagger-ui.html/**&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/swagger-ui.html&quot;</span>,<span class="hljs-string">&quot;swagger-ui.html&quot;</span>,<span class="hljs-string">&quot;/swagger-ui.html/*&quot;</span>,<span class="hljs-string">&quot;swagger/**&quot;</span>,<span class="hljs-string">&quot;/swagger-resources&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/error&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/auth/login&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/auth/loginV2&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/auth/loginV3&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/auth/code&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/school/query&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/school/invite&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/school/mySchool&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/**/**-ios&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/class/query&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/student/reg&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/file/upload&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/file/download&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/file/uploadNew&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/file/page&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/item/list&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/school/upload&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/auth/loginRefresh&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/auth/userLogin&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/student/notTokenAchievement&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/version/*&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/schoolRoot/Login&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/pathology/list&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/amap/region&quot;</span>)<br>                 .excludePathPatterns(<span class="hljs-string">&quot;/teacher/codeAddTeacher&quot;</span>)<br>                 .excludePathPatterns(<span class="hljs-string">&quot;/teacher/school/invite&quot;</span>)<br>                 .excludePathPatterns(<span class="hljs-string">&quot;/teacher/reg&quot;</span>)<br>                 .excludePathPatterns(<span class="hljs-string">&quot;/student/faceVerify&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/questionsAndHelp/pageSelect&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/questionsAndHelp/selectContent&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/sportsCoach/reg&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/school/page&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/area/**&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/school/list&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/school/listNoPage&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/qr/*&quot;</span>)<br><br>                .excludePathPatterns(<span class="hljs-string">&quot;/student/qrCodeBind&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/student/removeBindStudent&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/student/qrWho&quot;</span>)<br><br>                .excludePathPatterns(<span class="hljs-string">&quot;/teacher/qrCodeBind&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/teacher/qrCodeBindV2&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/teacher/removeBindTeacher&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/teacher/qrWho&quot;</span>)<br><br>                .excludePathPatterns(<span class="hljs-string">&quot;/auth/getLoginList&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/auth/getLoginListV2&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/auth/loginNew&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/banner/page&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/banner/detail&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/bgReplace/*&quot;</span>)<br><br>                .excludePathPatterns(<span class="hljs-string">&quot;/aio/pcEdit&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/aio/pcPage&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/aio/faceWho&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/aio/allClass&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/aio/nameWho&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/aio/nameLogin&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/aio/qrQuery&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/weather/get&quot;</span>)<br><br>                .excludePathPatterns(<span class="hljs-string">&quot;/tus/*&quot;</span>)<br><br>                .excludePathPatterns(<span class="hljs-string">&quot;/preview/see&quot;</span>)<br><br>                .excludePathPatterns(<span class="hljs-string">&quot;/privacy/newest&quot;</span>)<br>                .excludePathPatterns(<span class="hljs-string">&quot;/privacy/newest-ios&quot;</span>)<br>                ;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="三、配置自定义Interceptor"><a href="#三、配置自定义Interceptor" class="headerlink" title="三、配置自定义Interceptor"></a>三、<strong>配置自定义Interceptor</strong></h2>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AE%9E%E9%99%85%E9%A1%B9%E7%9B%AE/">实际项目</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE/">项目配置</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" rel="nofollow noopener noopener">CC BY-NC-ND 3.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/07/31/linux%20java%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+                        <span class="hidden-mobile">linux java环境配置</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                  
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/valine/1.4.16/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "lqv2hCGARxDWAYQMQ0oak9p1-gzGzoHsz",
+          app_key: "fnuR2s7kbARHLTyq5T9ty7dD",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: false,
+          recordIP: true,
+          serverURLs: "https://lqv2hcga.lc-cn-n1-shared.com",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/tocbot/4.18.2/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/anchor-js/4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/clipboard.js/2.0.10/clipboard.min.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
